@@ -38,4 +38,4 @@ Simulated sends are never delivered. They only write an `email_messages` row wit
 
 ## Not yet done
 
-Audit-log writers, rate limiting on the AI function, Stripe webhook verification, and an execution pass of the RLS test suite on a live database.
+Audit-log writers, rate limiting on the AI function, Stripe webhook verification, and an RLS test pass against the hosted project (the suite already passes on a local database).

@@ -2,7 +2,7 @@
 -- Fixtures are created as superuser (bypasses RLS), then each assertion runs as
 -- an `authenticated` user with a spoofed JWT subject.
 begin;
-select plan(11);
+select plan(10);
 
 -- Users: a1=OWNER, a2=ADMIN, a3=MEMBER, a4=VIEWER (org A); b1=OWNER of org B.
 insert into auth.users (id, email) values

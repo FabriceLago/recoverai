@@ -76,4 +76,11 @@ Every business row belongs to an organization and is protected by RLS. Roles (OW
 
 ## Status
 
-Built in phases against a spec. The Angular unit tests run and pass. **The SQL migrations, RLS policies, edge functions and pgTAP tests were written without a live Supabase project and have not been executed yet.** Apply them to a real project and run `supabase test db` before trusting them.
+Built in phases against a spec. Verified so far:
+
+- Angular unit tests: 26 passing.
+- SQL: all 10 migrations and `seed.sql` apply cleanly on a local Postgres 17 (`npx supabase start`), and all 5 pgTAP suites pass (27 tests: risk engine, next best action, revenue, RLS and role permissions) via `npx supabase test db`.
+
+Not verified yet: the hosted Supabase project (link it with `supabase link`, then `db push`), the Edge Functions (`generate-followup`, `create-checkout-session`), and the full signup-to-recovered flow in the browser against a real backend.
+
+Local ports are shifted +100 in `supabase/config.toml` to avoid clashing with other local Supabase stacks.
