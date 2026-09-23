@@ -1,0 +1,69 @@
+<div class="page-header">
+  <h1>Action Center</h1>
+</div>
+
+@if (error()) {
+  <div class="form-error">{{ error() }}</div>
+}
+
+<div class="tabs">
+  <button
+    type="button"
+    class="tab"
+    [class.active]="tab() === 'today'"
+    (click)="setTab('today')"
+  >
+    Today ({{ today().length }})
+  </button>
+  <button
+    type="button"
+    class="tab"
+    [class.active]="tab() === 'upcoming'"
+    (click)="setTab('upcoming')"
+  >
+    Upcoming ({{ upcoming().length }})
+  </button>
+  <button
+    type="button"
+    class="tab"
+    [class.active]="tab() === 'completed'"
+    (click)="setTab('completed')"
+  >
+    Completed
+  </button>
+</div>
+
+@if (loading()) {
+  <div class="skeleton-row" aria-hidden="true"></div>
+} @else if (visibleActions().length === 0) {
+  <div class="empty-state">
+    <p>Nothing here.</p>
+  </div>
+} @else {
+  <div class="action-list">
+    @for (action of visibleActions(); track action.id) {
+      <div class="action-card">
+        <div class="action-main">
+          <div>
+            <p class="company">{{ action.opportunity.company_name }}</p>
+            <p class="title">{{ action.title }}</p>
+            <p class="opp-title">{{ action.opportunity.title }}</p>
+          </div>
+          <app-priority-badge [priority]="action.priority" />
+        </div>
+        @if (action.reason) {
+          <p class="reason">{{ action.reason }}</p>
+        }
+        <div class="action-footer">
+          <a [routerLink]="['/opportunities', action.opportunity_id]">View opportunity →</a>
+          @if (action.status === 'PENDING') {
+            <div class="action-buttons">
+              <button type="button" class="btn-secondary" (click)="onDismiss(action.id)">Dismiss</button>
+              <button type="button" class="btn-primary" (click)="onComplete(action.id)">Complete</button>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+}

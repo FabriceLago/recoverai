@@ -1,0 +1,136 @@
+:host {
+  display: block;
+}
+
+.lp-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.lp-nav nav {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.lp-nav a {
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.brand {
+  font-weight: 700;
+}
+
+.btn {
+  background: var(--accent);
+  color: #fff !important;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.btn.large {
+  display: inline-block;
+  padding: 12px 22px;
+  font-size: 15px;
+}
+
+.hero,
+.section {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 64px 24px;
+}
+
+.hero {
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(30px, 6vw, 52px);
+  line-height: 1.1;
+  margin: 0 0 16px;
+}
+
+.hero p,
+.lead {
+  color: var(--text-secondary);
+  font-size: 18px;
+  margin: 0 0 28px;
+}
+
+.section h2 {
+  font-size: 26px;
+  margin: 0 0 16px;
+}
+
+.steps {
+  padding-left: 20px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.steps strong {
+  color: var(--text-primary);
+  margin-right: 6px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.card h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.card p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.price {
+  font-size: 28px !important;
+  font-weight: 700;
+  color: var(--text-primary) !important;
+}
+
+.price small {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+details {
+  border-bottom: 1px solid var(--border);
+  padding: 12px 0;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+details p {
+  color: var(--text-secondary);
+  margin: 8px 0 0;
+}
+
+.final {
+  text-align: center;
+}

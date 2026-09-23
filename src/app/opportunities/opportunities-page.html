@@ -1,0 +1,82 @@
+<div class="page-header">
+  <div>
+    <h1>Opportunities</h1>
+    <p class="subtitle">{{ result().count }} total</p>
+  </div>
+  <a class="btn-primary" routerLink="/opportunities/new">New opportunity</a>
+</div>
+
+<div class="toolbar">
+  <input
+    class="search"
+    type="search"
+    aria-label="Search opportunities"
+    placeholder="Search by company or title…"
+    [value]="search()"
+    (input)="onSearch($event)"
+  />
+  <select class="status-filter" aria-label="Filter by status" [value]="status()" (change)="onStatusChange($event)">
+    <option value="">All statuses</option>
+    @for (s of statuses; track s) {
+      <option [value]="s">{{ s }}</option>
+    }
+  </select>
+</div>
+
+@if (error()) {
+  <div class="form-error">{{ error() }}</div>
+}
+
+@if (loading()) {
+  <div class="skeleton" aria-hidden="true">
+    @for (i of [1, 2, 3, 4, 5]; track i) {
+      <div class="skeleton-row"></div>
+    }
+  </div>
+} @else if (result().data.length === 0) {
+  <div class="empty-state">
+    <p>No opportunities yet.</p>
+    <a routerLink="/opportunities/new">Create your first opportunity</a>
+  </div>
+} @else {
+  <table class="opps-table">
+    <thead>
+      <tr>
+        <th (click)="sortBy('title')">Opportunity</th>
+        <th (click)="sortBy('company_name')">Company</th>
+        <th (click)="sortBy('value')">Value</th>
+        <th>Status</th>
+        <th>Risk</th>
+        <th (click)="sortBy('last_contact_at')">Last Contact</th>
+        <th (click)="sortBy('expected_close_date')">Expected Close</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (opp of result().data; track opp.id) {
+        <tr [routerLink]="['/opportunities', opp.id]" class="row-link">
+          <td>{{ opp.title }}</td>
+          <td>{{ opp.company_name }}</td>
+          <td>{{ formatCurrency(opp.value, opp.currency) }}</td>
+          <td><app-status-badge [status]="opp.status" /></td>
+          <td>
+            @if (risksById().get(opp.id); as risk) {
+              <app-risk-badge [level]="risk.risk_level" [score]="risk.score" />
+            } @else {
+              <span class="muted">—</span>
+            }
+          </td>
+          <td>{{ formatDate(opp.last_contact_at) }}</td>
+          <td>{{ formatDate(opp.expected_close_date) }}</td>
+          <td><a [routerLink]="['/opportunities', opp.id]">View</a></td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button type="button" [disabled]="page() === 0" (click)="prevPage()">Previous</button>
+    <span>Page {{ page() + 1 }} of {{ totalPages() }}</span>
+    <button type="button" [disabled]="page() + 1 >= totalPages()" (click)="nextPage()">Next</button>
+  </div>
+}

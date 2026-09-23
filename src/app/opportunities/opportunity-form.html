@@ -1,0 +1,66 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="opp-form">
+  <div class="grid">
+    <div class="field">
+      <label for="title">Opportunity title</label>
+      <input id="title" type="text" formControlName="title" />
+    </div>
+
+    <div class="field">
+      <label for="company_name">Company</label>
+      <input id="company_name" type="text" formControlName="company_name" />
+    </div>
+
+    <div class="field">
+      <label for="contact_name">Contact name</label>
+      <input id="contact_name" type="text" formControlName="contact_name" />
+    </div>
+
+    <div class="field">
+      <label for="contact_email">Contact email</label>
+      <input id="contact_email" type="email" formControlName="contact_email" />
+    </div>
+
+    <div class="field">
+      <label for="value">Value</label>
+      <input id="value" type="number" min="0" step="0.01" formControlName="value" />
+    </div>
+
+    <div class="field">
+      <label for="currency">Currency</label>
+      <select id="currency" formControlName="currency">
+        <option value="EUR">EUR</option>
+        <option value="USD">USD</option>
+        <option value="GBP">GBP</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="status">Status</label>
+      <select id="status" formControlName="status">
+        @for (s of statuses; track s) {
+          <option [value]="s">{{ s }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="expected_close_date">Expected close date</label>
+      <input id="expected_close_date" type="date" formControlName="expected_close_date" />
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="description">Description</label>
+    <textarea id="description" rows="3" formControlName="description"></textarea>
+  </div>
+
+  @if (error()) {
+    <div class="form-error">{{ error() }}</div>
+  }
+
+  <div class="actions">
+    <button class="submit" type="submit" [disabled]="form.invalid || submitting()">
+      {{ submitting() ? 'Saving…' : submitLabel() }}
+    </button>
+  </div>
+</form>

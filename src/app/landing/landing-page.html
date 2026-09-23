@@ -1,0 +1,77 @@
+<header class="lp-nav">
+  <span class="brand">RecoverAI</span>
+  <nav aria-label="Main">
+    <a routerLink="/login">Sign in</a>
+    <a class="btn" routerLink="/signup">Analyze my pipeline</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>Stop losing revenue hiding in your pipeline.</h1>
+    <p>
+      RecoverAI detects the opportunities at risk, tells your team what to do next, and measures
+      the revenue you recover.
+    </p>
+    <a class="btn large" routerLink="/signup">Analyze my pipeline</a>
+  </section>
+
+  <section class="section" aria-labelledby="problem">
+    <h2 id="problem">The problem</h2>
+    <p class="lead">
+      Deals rarely die loudly. They go quiet — one unanswered email at a time — and nobody notices
+      until the quarter is over.
+    </p>
+  </section>
+
+  <section class="section" aria-labelledby="how">
+    <h2 id="how">How it works</h2>
+    <ol class="steps">
+      <li><strong>Score</strong> Every opportunity gets an explainable risk score.</li>
+      <li><strong>Act</strong> A next best action tells you who to follow up with, and when.</li>
+      <li><strong>Recover</strong> Draft the follow-up, send it, and track the revenue you win back.</li>
+    </ol>
+  </section>
+
+  <section class="section" aria-labelledby="features">
+    <h2 id="features">Built around one number</h2>
+    <div class="cards">
+      <div class="card"><h3>Revenue Radar</h3><p>See pipeline, revenue at risk and today's actions at a glance.</p></div>
+      <div class="card"><h3>Next Best Action</h3><p>Deterministic, explainable recommendations — no black box.</p></div>
+      <div class="card"><h3>Revenue Recovered</h3><p>The metric that proves the product pays for itself.</p></div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="integrations">
+    <h2 id="integrations">Integrations</h2>
+    <div class="cards">
+      <div class="card"><h3>Gmail</h3><p>Connect your Google mailbox to detect opportunities automatically.</p></div>
+      <div class="card"><h3>Outlook</h3><p>Microsoft 365 support through Microsoft Graph.</p></div>
+      <div class="card"><h3>CSV &amp; simulation</h3><p>Start today with a CSV import or the built-in demo data.</p></div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="pricing">
+    <h2 id="pricing">Pricing</h2>
+    <div class="cards">
+      @for (plan of plans; track plan.id) {
+        <div class="card">
+          <h3>{{ plan.name }}</h3>
+          <p class="price">€{{ plan.priceEurMonthly }}<small>/month</small></p>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="faq">
+    <h2 id="faq">FAQ</h2>
+    <details><summary>Do I need to connect my inbox?</summary><p>No. Start with the built-in simulation or a CSV import; Gmail and Outlook are optional.</p></details>
+    <details><summary>Is my data isolated from other companies?</summary><p>Yes. Every record belongs to one organization and is protected by database-level row security.</p></details>
+    <details><summary>Does simulation send real emails?</summary><p>Never. Simulated sends are only recorded inside the app.</p></details>
+  </section>
+
+  <section class="section final">
+    <h2>Find the revenue hiding in your pipeline.</h2>
+    <a class="btn large" routerLink="/signup">Analyze my pipeline</a>
+  </section>
+</main>

@@ -1,0 +1,86 @@
+<div class="page-header">
+  <h1>Settings</h1>
+</div>
+
+<h2 class="section-title">Integrations</h2>
+<div class="settings-card">
+  <p class="description">
+    RecoverAI runs fully on a built-in simulated inbox. Connecting a real mailbox is optional and
+    never required to use the app.
+  </p>
+
+  @if (integrationMessage()) {
+    <div class="form-error">{{ integrationMessage() }}</div>
+  }
+
+  <ul class="integration-list">
+    <li class="integration-row">
+      <div>
+        <strong>Simulated inbox</strong>
+        <span class="status status-connected">Connected</span>
+      </div>
+    </li>
+    @for (provider of realProviders; track provider.name) {
+      <li class="integration-row">
+        <div>
+          <strong>{{ provider.label }}</strong>
+          <span
+            class="status"
+            [class.status-connected]="statuses()[provider.name] === 'CONNECTED'"
+          >
+            {{ statuses()[provider.name] === 'CONNECTED' ? 'Connected' : 'Not connected' }}
+          </span>
+        </div>
+        <button type="button" class="btn-secondary" (click)="onConnect(provider.name)">
+          Connect
+        </button>
+      </li>
+    }
+  </ul>
+</div>
+
+<h2 class="section-title">Simulation</h2>
+<div class="settings-card">
+  <p class="description">
+    Generate 15–30 realistic demo opportunities to explore the full RecoverAI
+    workflow without connecting real data. Simulated opportunities are tagged
+    and can be identified anywhere in the app.
+  </p>
+
+  @if (error()) {
+    <div class="form-error">{{ error() }}</div>
+  }
+  @if (successMessage()) {
+    <div class="form-success">{{ successMessage() }}</div>
+  }
+
+  <button type="button" class="btn-primary" [disabled]="activating()" (click)="onActivate()">
+    {{ activating() ? 'Generating…' : 'Activate simulation' }}
+  </button>
+</div>
+
+<h2 class="section-title">Billing</h2>
+<div class="settings-card">
+  <p class="description">
+    Payment is optional for the demo. Plans below are prepared for Stripe and only activate once
+    billing is configured for this project.
+  </p>
+
+  @if (billingMessage()) {
+    <div class="form-error">{{ billingMessage() }}</div>
+  }
+
+  <ul class="integration-list">
+    @for (plan of plans; track plan.id) {
+      <li class="integration-row">
+        <div>
+          <strong>{{ plan.name }}</strong>
+          <span class="status">€{{ plan.priceEurMonthly }}/month</span>
+        </div>
+        <button type="button" class="btn-secondary" (click)="onSubscribe(plan.id)">
+          Subscribe
+        </button>
+      </li>
+    }
+  </ul>
+</div>

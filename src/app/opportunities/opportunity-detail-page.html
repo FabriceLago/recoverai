@@ -1,0 +1,193 @@
+@if (loading()) {
+  <div class="skeleton-row" aria-hidden="true"></div>
+} @else if (notFound()) {
+  <div class="empty-state">
+    <p>Opportunity not found.</p>
+    <a routerLink="/opportunities">Back to opportunities</a>
+  </div>
+} @else if (opportunity(); as opp) {
+  <div class="page-header">
+    <div>
+      <h1>{{ opp.title }}</h1>
+      <p class="subtitle">{{ opp.company_name }}</p>
+    </div>
+    <div class="header-actions">
+      <app-status-badge [status]="opp.status" />
+      @if (riskScore(); as risk) {
+        <app-risk-badge [level]="risk.risk_level" [score]="risk.score" />
+      }
+      @if (opp.status !== 'WON' && opp.status !== 'LOST') {
+        <button
+          class="btn-primary"
+          type="button"
+          [disabled]="recovering()"
+          (click)="onMarkAsRecovered()"
+        >
+          {{ recovering() ? 'Recording…' : 'Mark as recovered' }}
+        </button>
+      }
+      @if (!editing()) {
+        <button class="btn-secondary" type="button" (click)="editing.set(true)">Edit</button>
+      }
+      <button class="btn-danger" type="button" (click)="onDelete()">Delete</button>
+    </div>
+  </div>
+
+  @if (error()) {
+    <div class="form-error">{{ error() }}</div>
+  }
+
+  @if (editing()) {
+    <app-opportunity-form
+      submitLabel="Save changes"
+      [initialValue]="formValue()"
+      [submitting]="saving()"
+      [error]="error()"
+      (save)="onSave($event)"
+    />
+  } @else {
+    <div class="overview-card">
+      <div class="overview-row">
+        <span class="label">Value</span>
+        <span>{{ formatCurrency(opp.value, opp.currency) }}</span>
+      </div>
+      <div class="overview-row">
+        <span class="label">Contact</span>
+        <span>{{ opp.contact_name || '—' }} @if (opp.contact_email) { ({{ opp.contact_email }}) }</span>
+      </div>
+      <div class="overview-row">
+        <span class="label">Last contact</span>
+        <span>{{ formatDate(opp.last_contact_at) }}</span>
+      </div>
+      <div class="overview-row">
+        <span class="label">Expected close</span>
+        <span>{{ formatDate(opp.expected_close_date) }}</span>
+      </div>
+      <div class="overview-row">
+        <span class="label">Description</span>
+        <span>{{ opp.description || '—' }}</span>
+      </div>
+    </div>
+
+    <h2 class="section-title">Risk analysis</h2>
+    @if (riskScore(); as risk) {
+      <div class="overview-card">
+        <div class="overview-row">
+          <span class="label">Score</span>
+          <app-risk-badge [level]="risk.risk_level" [score]="risk.score" />
+        </div>
+        @if (risk.explanation.length > 0) {
+          <ul class="explanation-list">
+            @for (reason of risk.explanation; track reason) {
+              <li>{{ reason }}</li>
+            }
+          </ul>
+        } @else {
+          <p class="muted">No risk factors detected.</p>
+        }
+      </div>
+    } @else {
+      <p class="muted">Risk score not available yet.</p>
+    }
+
+    <h2 class="section-title">Recommended action</h2>
+    @if (recommendedAction(); as action) {
+      <div class="overview-card">
+        <div class="overview-row">
+          <span class="label">{{ action.title }}</span>
+          <app-priority-badge [priority]="action.priority" />
+        </div>
+        @if (action.description) {
+          <p class="muted">{{ action.description }}</p>
+        }
+        @if (action.reason) {
+          <p class="reason">{{ action.reason }}</p>
+        }
+        @if (action.status === 'PENDING') {
+          <div class="action-buttons">
+            <button type="button" class="btn-secondary" (click)="onDismissAction()">Dismiss</button>
+            <button type="button" class="btn-primary" (click)="onCompleteAction()">Complete</button>
+          </div>
+        }
+      </div>
+    } @else {
+      <p class="muted">No action recommended right now.</p>
+    }
+
+    <h2 class="section-title">Suggested email</h2>
+    <div class="overview-card">
+      @if (emailError()) {
+        <div class="form-error">{{ emailError() }}</div>
+      }
+      @if (emailSentAt()) {
+        <div class="form-success">Simulation: email recorded as sent.</div>
+      }
+
+      @if (!emailDraft()) {
+        <button
+          type="button"
+          class="btn-primary"
+          [disabled]="generatingEmail()"
+          (click)="onGenerateEmail()"
+        >
+          {{ generatingEmail() ? 'Generating…' : 'Generate follow-up' }}
+        </button>
+      } @else {
+        <div class="field">
+          <label for="email-subject">To</label>
+          <input id="email-to" type="text" [value]="opp.contact_email || opp.company_name" disabled />
+        </div>
+        <div class="field">
+          <label for="email-subject">Subject</label>
+          <input
+            id="email-subject"
+            type="text"
+            [value]="emailDraft()!.subject"
+            (input)="onSubjectChange($event)"
+          />
+        </div>
+        <div class="field">
+          <label for="email-body">Message</label>
+          <textarea
+            id="email-body"
+            rows="6"
+            [value]="emailDraft()!.body"
+            (input)="onBodyChange($event)"
+          ></textarea>
+        </div>
+        <div class="action-buttons">
+          <button
+            type="button"
+            class="btn-secondary"
+            [disabled]="generatingEmail() || sendingEmail()"
+            (click)="onGenerateEmail()"
+          >
+            {{ generatingEmail() ? 'Regenerating…' : 'Regenerate' }}
+          </button>
+          <button
+            type="button"
+            class="btn-primary"
+            [disabled]="sendingEmail()"
+            (click)="onSendEmail()"
+          >
+            {{ sendingEmail() ? 'Sending…' : 'Send (simulated)' }}
+          </button>
+        </div>
+      }
+    </div>
+
+    <h2 class="section-title">Timeline</h2>
+    @if (timeline().length === 0) {
+      <p class="muted">No activity yet.</p>
+    } @else {
+      <ul class="timeline">
+        @for (entry of timeline(); track entry.at + entry.type) {
+          <li class="timeline-entry">
+            <span class="timeline-date">{{ formatDate(entry.at) }}</span>
+            <span class="timeline-label">{{ entry.label }}</span>
+          </li>
+        }
+      </ul>
+    }
+  }
+}

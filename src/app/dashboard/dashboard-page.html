@@ -1,0 +1,61 @@
+<div class="page-header">
+  <h1>Revenue Radar</h1>
+  <p class="subtitle">Here are the opportunities that need your attention.</p>
+</div>
+
+@if (error()) {
+  <div class="form-error">{{ error() }}</div>
+}
+
+@if (loadingKpis()) {
+  <div class="kpi-grid">
+    @for (i of [1, 2, 3, 4]; track i) {
+      <div class="kpi-skeleton"></div>
+    }
+  </div>
+} @else if (kpis(); as k) {
+  <div class="kpi-grid">
+    <app-kpi-card label="Revenue Pipeline" [value]="formatCurrency(k.revenue_pipeline)" />
+    <app-kpi-card label="Revenue at Risk" [value]="formatCurrency(k.revenue_at_risk)" />
+    <app-kpi-card label="Actions Today" [value]="k.actions_today.toString()" />
+    <app-kpi-card label="Revenue Recovered" [value]="formatCurrency(k.revenue_recovered)" />
+  </div>
+}
+
+<h2 class="section-title">Needs Attention</h2>
+
+@if (loadingAttention()) {
+  <div class="skeleton-row" aria-hidden="true"></div>
+} @else if (needsAttention().length === 0) {
+  <div class="empty-state">
+    <p>No opportunities need attention right now.</p>
+    <a routerLink="/opportunities">View all opportunities</a>
+  </div>
+} @else {
+  <div class="attention-list">
+    @for (opp of needsAttention(); track opp.id) {
+      <div class="attention-card">
+        <div class="attention-main">
+          <div>
+            <p class="company">{{ opp.company_name }}</p>
+            <p class="title">{{ opp.title }}</p>
+          </div>
+          <div class="attention-meta">
+            <span class="value">{{ formatCurrency(opp.value, opp.currency) }}</span>
+            <app-risk-badge [level]="opp.risk_level" [score]="opp.risk_score" />
+          </div>
+        </div>
+        @if (opp.risk_explanation.length > 0) {
+          <p class="reason">{{ opp.risk_explanation.join(' · ') }}</p>
+        }
+        <a class="cta" [routerLink]="['/opportunities', opp.id]">
+          @if (actionsById().get(opp.id); as action) {
+            {{ action.title }} →
+          } @else {
+            View opportunity →
+          }
+        </a>
+      </div>
+    }
+  </div>
+}

@@ -1,0 +1,9 @@
+<div class="page-header">
+  <h1>New opportunity</h1>
+</div>
+<app-opportunity-form
+  submitLabel="Create opportunity"
+  [submitting]="submitting()"
+  [error]="error()"
+  (save)="onSave($event)"
+/>

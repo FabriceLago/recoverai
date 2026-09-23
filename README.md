@@ -1,59 +1,79 @@
-# Recoverai
+# RecoverAI
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.6.
+A B2B **Revenue Recovery Platform**. It answers one question: *of my open opportunities, which are about to be lost, and what should I do now?*
 
-## Development server
-
-To start a local development server, run:
-
-```bash
-ng serve
+```
+Opportunities -> Risk Score -> Revenue at Risk -> Next Best Action -> Follow-up -> Revenue Recovered
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Not a general-purpose CRM. The product north-star metric is **Revenue Recovered**.
 
-## Code scaffolding
+## Architecture
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- **Frontend:** Angular (standalone components, signals, reactive forms, SCSS) in `src/`.
+- **Backend:** Supabase (PostgreSQL, Auth, Row Level Security, Edge Functions) in `supabase/`.
+- **Business logic lives in Postgres** (risk engine, next best action, KPIs, mark recovered): one source of truth. Angular reads data and calls RPCs.
+- **AI and Stripe:** server-side Edge Functions only. No secret reaches the browser.
+- **Email:** `EmailProvider` abstraction with `MockEmailProvider` (works today) plus Gmail/Outlook stubs.
 
-```bash
-ng generate component component-name
-```
+See [docs/architecture.md](docs/architecture.md).
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Prerequisites
 
-```bash
-ng generate --help
-```
+- Node.js 20+ and npm
+- A Supabase project (free tier is fine) and the Supabase CLI (`npx supabase` works)
+- Optional: an OpenAI key (follow-up generation) and a Stripe key (billing)
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Install and run
 
 ```bash
-ng test
+npm install
+cp .env.example .env        # fill in values (never commit .env)
+npm run dev                 # http://localhost:4200
+npm run test                # unit tests (Angular / Vitest)
+npm run build               # production build
 ```
 
-## Running end-to-end tests
+## Environment variables
 
-For end-to-end (e2e) testing, run:
+See `.env.example`.
+
+- Browser-safe: `SUPABASE_URL`, `SUPABASE_ANON_KEY` (put them in `src/environments/environment*.ts`).
+- Server-only secrets (Edge Function secrets, never in Angular): `SUPABASE_SERVICE_ROLE_KEY`, `OPENAI_API_KEY`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `GOOGLE_*`, `MICROSOFT_*`.
+
+## Supabase setup
 
 ```bash
-ng e2e
+npx supabase login
+npx supabase link --project-ref <your-project-ref>
+npx supabase db push                                   # applies supabase/migrations/*
+npx supabase secrets set OPENAI_API_KEY=... STRIPE_SECRET_KEY=...
+npx supabase functions deploy generate-followup
+npx supabase functions deploy create-checkout-session
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+### Seed (demo data)
 
-## Additional Resources
+`supabase/seed.sql` creates one organization, four users (OWNER/ADMIN/MEMBER/VIEWER, password `demo-password-123`), 20 opportunities and revenue events. On a local stack, `npx supabase db reset` applies migrations then the seed. All seed data is fictional and tagged as simulation.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Database tests
+
+`npx supabase test db` runs the pgTAP suites in `supabase/tests/` (risk engine, next best action, revenue, RLS and permissions).
+
+## Using the app
+
+Sign up, then onboarding (create the organization; pick Simulation, CSV import or empty), then the Revenue Radar dashboard. Open an opportunity to see its risk analysis, recommended action and AI-drafted follow-up (simulated send), then **Mark as recovered**.
+
+Simulation mode never sends real email.
+
+## Security
+
+Every business row belongs to an organization and is protected by RLS. Roles (OWNER/ADMIN/MEMBER/VIEWER) are enforced in the database. See [docs/security.md](docs/security.md).
+
+## More docs
+
+[architecture](docs/architecture.md), [database](docs/database.md), [security](docs/security.md), [deployment](docs/deployment.md), [product](docs/product.md)
+
+## Status
+
+Built in phases against a spec. The Angular unit tests run and pass. **The SQL migrations, RLS policies, edge functions and pgTAP tests were written without a live Supabase project and have not been executed yet.** Apply them to a real project and run `supabase test db` before trusting them.

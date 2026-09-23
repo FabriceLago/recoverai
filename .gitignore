@@ -42,3 +42,10 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+supabase/.temp/
+supabase/.branches/
