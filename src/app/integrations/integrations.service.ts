@@ -23,12 +23,13 @@ export class IntegrationsService {
     provider: EmailProviderName,
     status: IntegrationStatus,
   ): Promise<void> {
+    // Update-only: clients may change a connection's status but can never create one or
+    // touch tokens (column privileges enforce it). Connecting goes through an Edge Function.
     const { error } = await supabase
       .from('integrations')
-      .upsert(
-        { organization_id: organizationId, provider, status },
-        { onConflict: 'organization_id,provider' },
-      );
+      .update({ status })
+      .eq('organization_id', organizationId)
+      .eq('provider', provider);
     if (error) throw error;
   }
 }

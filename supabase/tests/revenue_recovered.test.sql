@@ -40,7 +40,15 @@ insert into opportunities (
   now() - interval '20 days', 0, current_date + 3
 );
 
+-- The RPC checks the caller's role, so run it as a real organization member.
+insert into auth.users (id, email) values ('00000000-0000-0000-0000-0000000000c9', 'recover@test');
+insert into memberships (organization_id, user_id, role)
+values ('00000000-0000-0000-0000-000000000003', '00000000-0000-0000-0000-0000000000c9', 'OWNER');
+
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000c9"}', true);
 select mark_opportunity_recovered('00000000-0000-0000-0000-0000000000c2', 7500);
+reset role;
 
 select is(
   (select status from opportunities where id = '00000000-0000-0000-0000-0000000000c2'),

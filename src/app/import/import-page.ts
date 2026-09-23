@@ -9,6 +9,9 @@ import { I18nService } from '../core/i18n/i18n.service';
 
 type Step = 'upload' | 'preview' | 'done';
 
+const MAX_IMPORT_BYTES = 2 * 1024 * 1024;
+const MAX_IMPORT_ROWS = 2000;
+
 @Component({
   selector: 'app-import-page',
   imports: [RouterLink, TranslatePipe],
@@ -30,6 +33,14 @@ export class ImportPage {
   readonly invalidCount = computed(() => this.rows().filter((r) => r.value === null).length);
 
   async onFileSelected(event: Event) {
+    // Parsing runs in the browser and every row becomes a database insert, so bound both
+    // the file size and the row count instead of letting a huge file freeze the tab.
+    const picked = (event.target as HTMLInputElement).files?.[0];
+    if (picked && picked.size > MAX_IMPORT_BYTES) {
+      this.error.set(this.i18n.t('The file is too large (2 MB maximum).'));
+      return;
+    }
+
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file) return;
     this.error.set('');
@@ -39,6 +50,11 @@ export class ImportPage {
       const table = parseCsv(text);
       if (table.length === 0) {
         this.error.set(this.i18n.t('The file is empty.'));
+        return;
+      }
+
+      if (table.length - 1 > MAX_IMPORT_ROWS) {
+        this.error.set(this.i18n.t('Too many rows (2000 maximum per import).'));
         return;
       }
 

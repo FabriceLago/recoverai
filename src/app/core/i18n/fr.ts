@@ -210,6 +210,8 @@ export const FR: Record<string, string> = {
   'Importing…': 'Import en cours…',
   'Imported {count} opportunities.': '{count} opportunités importées.',
   'View opportunities': 'Voir les opportunités',
+  'The file is too large (2 MB maximum).': 'Le fichier est trop volumineux (2 Mo maximum).',
+  'Too many rows (2000 maximum per import).': 'Trop de lignes (2000 maximum par import).',
   'The file is empty.': 'Le fichier est vide.',
   'CSV must include at least company_name and title columns.': 'Le CSV doit contenir au moins les colonnes company_name et title.',
   'Failed to read the file.': 'Impossible de lire le fichier.',
@@ -239,6 +241,7 @@ export const FR: Record<string, string> = {
   '/month': '/mois',
   Subscribe: 'S’abonner',
   'Billing is not configured for this project yet.': 'La facturation n’est pas encore configurée pour ce projet.',
+  'Unexpected checkout address.': 'Adresse de paiement inattendue.',
   'Failed to start checkout.': 'Impossible de lancer le paiement.',
 
   // Landing

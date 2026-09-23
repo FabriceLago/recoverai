@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { supabase } from '../core/supabase.client';
+import { buildContainsFilter } from '../core/postgrest-filter';
 import type { Opportunity, OpportunityFormValue, OpportunityStatus } from './opportunity.model';
 
 export interface OpportunityListParams {
@@ -31,8 +32,7 @@ export class OpportunitiesService {
     let query = supabase.from('opportunities').select('*', { count: 'exact' });
 
     if (search.trim()) {
-      const term = `%${search.trim()}%`;
-      query = query.or(`company_name.ilike.${term},title.ilike.${term}`);
+      query = query.or(buildContainsFilter(['company_name', 'title'], search));
     }
     if (status) {
       query = query.eq('status', status);
