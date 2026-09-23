@@ -242,6 +242,16 @@ export const FR: Record<string, string> = {
   'Failed to start checkout.': 'Impossible de lancer le paiement.',
 
   // Landing
+  'Revenue recovery platform': 'Plateforme de récupération de revenu',
+  'See how it works': 'Voir comment ça marche',
+  'Works with': 'Compatible avec',
+  'Live risk score (example)': 'Score de risque en direct (exemple)',
+  'Explainable by design': 'Explicable par conception',
+  'Every score comes with its reasons. Nothing is a black box, so your team can trust it and act on it.': 'Chaque score est accompagné de ses raisons. Rien n’est une boîte noire : votre équipe peut s’y fier et agir.',
+  'Deterministic rules, not guesses': 'Des règles déterministes, pas des suppositions',
+  'The same inputs always give the same score.': 'Les mêmes données donnent toujours le même score.',
+  'Reasons in plain language': 'Des raisons en langage clair',
+  'Each risk lists what drives it: silence, value, engagement, deadline.': 'Chaque risque indique ce qui le provoque : silence, valeur, engagement, échéance.',
   // Landing hero
   'Stop losing revenue hiding in your': 'Arrêtez de perdre du revenu caché dans votre',
   'pipeline.': 'pipeline.',

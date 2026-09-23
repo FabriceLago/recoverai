@@ -1,15 +1,19 @@
 :root {
-  /* Light: white paper, black ink, one mint accent (used as a fill, never as small text) */
+  /* Light: white paper, navy ink. Brand blue is the fill and the accent text. */
   --background: #ffffff;
   --surface: #ffffff;
-  --surface-elevated: #eef0f2;
-  --border: #dde1e5;
-  --text-primary: #0a0d0f;
-  --text-secondary: #535d65;
-  --accent: #23cf9d;
-  --accent-contrast: #000000;
-  --accent-text: #0b7a5a;
-  --ink: #000000;
+  --surface-elevated: #f0f2fa;
+  --border: #dfe3f0;
+  --text-primary: #0a0f2c;
+  --text-secondary: #4d5678;
+  --accent: #0d2ae4;
+  --accent-contrast: #ffffff;
+  --accent-text: #0d2ae4;
+  --blue: #0d2ae4;
+  --navy: #001651;
+  --night: #05081a;
+  --lime: #d6f03c;
+  --ink: #05081a;
   --on-ink: #ffffff;
 
   /* Risk spectrum: the one place colour carries meaning */
@@ -17,33 +21,36 @@
   --risk-medium: #b7791f;
   --risk-high: #d9541e;
   --risk-critical: #c4262e;
-  /* Darker twins for TEXT (fills above pass 3:1 for graphics, text needs 4.5:1) */
+  /* Darker twins for TEXT (fills pass 3:1 for graphics, text needs 4.5:1) */
   --risk-low-text: #107151;
   --risk-medium-text: #8b5c18;
   --risk-high-text: #a94217;
   --risk-critical-text: #b8242b;
-  --accent-text-soft: #0b7858;
+  --accent-text-soft: #0d2ae4;
   --success: var(--risk-low);
   --warning: var(--risk-medium);
   --danger: var(--risk-critical);
 
-  --shadow: 0 1px 2px rgba(10, 13, 15, 0.04), 0 6px 20px rgba(10, 13, 15, 0.05);
+  --shadow: 0 1px 2px rgba(10, 15, 44, 0.04), 0 8px 24px rgba(10, 15, 44, 0.06);
   --radius: 16px;
   --radius-control: 10px;
-  --font-display: 'Outfit', 'Geist', system-ui, sans-serif;
+  --font-display: 'Inter Tight', 'Geist', system-ui, sans-serif;
   --font-sans: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, 'Cascadia Mono', monospace;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #000000;
-    --surface: #0e1113;
-    --surface-elevated: #23282c;
-    --border: #2c3339;
+    --background: #05081a;
+    --surface: #0b1030;
+    --surface-elevated: #141b45;
+    --border: #232c62;
     --text-primary: #ffffff;
-    --text-secondary: #98a3ad;
-    --accent-text: #23cf9d;
+    --text-secondary: #a3add8;
+    --accent: #d6f03c;
+    --accent-contrast: #05081a;
+    --accent-text: #d6f03c;
+    --accent-text-soft: #d6f03c;
     --risk-low: #34c38f;
     --risk-medium: #e0a83a;
     --risk-high: #f27a4a;
@@ -79,8 +86,8 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  letter-spacing: -0.03em;
 }
 
 .num,

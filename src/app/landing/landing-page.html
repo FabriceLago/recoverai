@@ -1,16 +1,23 @@
-<div class="hero-wrap">
-  <header class="lp-nav">
-    <span class="brand">RECOVERAI</span>
-    <nav [attr.aria-label]="'Main' | t">
-      <div class="controls">
-        <app-language-switcher />
-        <a class="signin" routerLink="/login">{{ 'Sign in' | t }}</a>
-      </div>
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="brand">RecoverAI</span>
+    <nav class="links" [attr.aria-label]="'Main' | t">
+      <a href="#how">{{ 'How it works' | t }}</a>
+      <a href="#pricing">{{ 'Pricing' | t }}</a>
+      <a href="#faq">{{ 'FAQ' | t }}</a>
     </nav>
-  </header>
+    <div class="actions">
+      <app-language-switcher />
+      <a class="pill pill-light" routerLink="/login">{{ 'Sign in' | t }}</a>
+      <a class="pill pill-lime" routerLink="/signup">{{ 'Analyze my pipeline' | t }}</a>
+    </div>
+  </div>
+</div>
 
+<header class="hero-wrap">
   <section class="hero">
     <div class="hero-copy">
+      <p class="eyebrow">{{ 'Revenue recovery platform' | t }}</p>
       <h1>
         {{ 'Stop losing revenue hiding in your' | t }}
         <span class="hl">{{ 'pipeline.' | t }}</span>
@@ -18,102 +25,156 @@
       <p class="lead">
         {{ 'RecoverAI detects the opportunities at risk, tells your team what to do next, and measures the revenue you recover.' | t }}
       </p>
-      <ul class="checks">
-        <li>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M8 12.5l2.7 2.7L16 9.5" /></svg>
-          <span><strong>{{ 'Explainable risk scores' | t }}</strong><small>{{ 'Every deal gets a score you can trace to its reasons.' | t }}</small></span>
-        </li>
-        <li>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h13M13 7l5 5-5 5" /></svg>
-          <span><strong>{{ 'Know what to do next' | t }}</strong><small>{{ 'A next best action for every opportunity at risk.' | t }}</small></span>
-        </li>
-        <li>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18l5-6 4 3 7-9" /></svg>
-          <span><strong>{{ 'Recovered revenue, measured' | t }}</strong><small>{{ 'Track what your follow-ups win back.' | t }}</small></span>
-        </li>
-      </ul>
-      <a class="btn large" routerLink="/signup">{{ 'Analyze my pipeline' | t }}</a>
+      <div class="cta-row">
+        <a class="btn-lime" routerLink="/signup">{{ 'Analyze my pipeline' | t }} <span aria-hidden="true">→</span></a>
+        <a class="btn-ghost" href="#how">{{ 'See how it works' | t }}</a>
+      </div>
+      <p class="works-with">
+        <span>{{ 'Works with' | t }}</span>
+        <b>Gmail</b><b>Outlook</b><b>CSV</b><b>Stripe</b>
+      </p>
     </div>
 
-    <div class="hero-card" role="img" [attr.aria-label]="'Your revenue at a glance' | t">
-      <p class="card-title">{{ 'Your revenue at a glance' | t }}</p>
-      <div class="panel">
-        <p class="panel-label">{{ 'Revenue at Risk' | t }}</p>
-        <p class="panel-value" [appCountUp]="92100" currency="EUR"></p>
+    <div class="stage" role="img" [attr.aria-label]="'Live risk score (example)' | t">
+      <div class="window" aria-hidden="true">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <div class="win-row">
+          <span>{{ 'Revenue at Risk' | t }}</span>
+          <b class="num" [appCountUp]="92100" currency="EUR"></b>
+        </div>
         <div class="bar">
           <span style="flex: 9.7; background: var(--risk-low)"></span>
           <span style="flex: 14; background: var(--risk-medium)"></span>
           <span style="flex: 56; background: var(--risk-high)"></span>
           <span style="flex: 36.1; background: var(--risk-critical)"></span>
         </div>
-        <ul class="rows">
-          <li><i style="background: var(--risk-critical)"></i>{{ 'CRITICAL' | t }}<b>€36,100</b></li>
-          <li><i style="background: var(--risk-high)"></i>{{ 'HIGH' | t }}<b>€56,000</b></li>
-          <li><i style="background: var(--risk-medium)"></i>{{ 'MEDIUM' | t }}<b>€14,000</b></li>
-          <li><i style="background: var(--risk-low)"></i>{{ 'LOW' | t }}<b>€9,700</b></li>
+      </div>
+
+      <div class="deal-card">
+        <p class="deal-eyebrow">{{ 'Example data' | t }}</p>
+        <p class="deal-co">Northwind Co</p>
+        <p class="deal-title">B2B SaaS platform</p>
+        <div class="deal-score">
+          <span class="score num">92</span>
+          <span class="of">/ 100</span>
+          <span class="level">{{ 'CRITICAL' | t }}</span>
+        </div>
+        <ul class="reasons">
+          <li>{{ '{n} days without contact' | t: { n: 18 } }}</li>
+          <li>{{ 'High-value opportunity' | t }}</li>
+          <li>{{ 'Closing date approaching' | t }}</li>
         </ul>
-        <p class="sample">{{ 'Example data' | t }}</p>
+        <span class="next">{{ 'Follow up now' | t }} →</span>
       </div>
     </div>
   </section>
-</div>
+</header>
 
 <main>
-  <section appReveal class="section" aria-labelledby="problem">
-    <h2 id="problem">{{ 'The problem' | t }}</h2>
-    <p class="lead">
-      {{ 'Deals rarely die loudly. They go quiet — one unanswered email at a time — and nobody notices until the quarter is over.' | t }}
-    </p>
-  </section>
-
-  <section appReveal class="section" aria-labelledby="how">
-    <h2 id="how">{{ 'How it works' | t }}</h2>
-    <ol class="steps">
-      <li><strong>{{ 'Score' | t }}</strong> {{ 'Every opportunity gets an explainable risk score.' | t }}</li>
-      <li><strong>{{ 'Act' | t }}</strong> {{ 'A next best action tells you who to follow up with, and when.' | t }}</li>
-      <li><strong>{{ 'Recover' | t }}</strong> {{ 'Draft the follow-up, send it, and track the revenue you win back.' | t }}</li>
-    </ol>
-  </section>
-
-  <section appReveal class="section" aria-labelledby="features">
-    <h2 id="features">{{ 'Built around one number' | t }}</h2>
-    <div class="cards">
-      <div appReveal class="card"><h3>{{ 'Revenue Radar' | t }}</h3><p>{{ 'See pipeline, revenue at risk and today’s actions at a glance.' | t }}</p></div>
-      <div appReveal class="card"><h3>{{ 'Next Best Action' | t }}</h3><p>{{ 'Deterministic, explainable recommendations — no black box.' | t }}</p></div>
-      <div appReveal class="card"><h3>{{ 'Revenue Recovered' | t }}</h3><p>{{ 'The metric that proves the product pays for itself.' | t }}</p></div>
+  <section appReveal class="block block-white" aria-labelledby="problem">
+    <div class="wrap narrow">
+      <h2 id="problem">{{ 'The problem' | t }}</h2>
+      <p class="big">
+        {{ 'Deals rarely die loudly. They go quiet — one unanswered email at a time — and nobody notices until the quarter is over.' | t }}
+      </p>
     </div>
   </section>
 
-  <section appReveal class="section" aria-labelledby="integrations">
-    <h2 id="integrations">{{ 'Integrations' | t }}</h2>
-    <div class="cards">
-      <div appReveal class="card"><h3>{{ 'Gmail' | t }}</h3><p>{{ 'Connect your Google mailbox to detect opportunities automatically.' | t }}</p></div>
-      <div appReveal class="card"><h3>{{ 'Outlook' | t }}</h3><p>{{ 'Microsoft 365 support through Microsoft Graph.' | t }}</p></div>
-      <div appReveal class="card"><h3>{{ 'CSV & simulation' | t }}</h3><p>{{ 'Start today with a CSV import or the built-in demo data.' | t }}</p></div>
+  <section id="how" class="block block-navy" aria-labelledby="how-title">
+    <div class="wrap">
+      <h2 id="how-title" appReveal>{{ 'How it works' | t }}</h2>
+      <ol class="steps">
+        <li appReveal>
+          <span class="step-no" aria-hidden="true">1</span>
+          <h3>{{ 'Score' | t }}</h3>
+          <p>{{ 'Every opportunity gets an explainable risk score.' | t }}</p>
+        </li>
+        <li appReveal>
+          <span class="step-no" aria-hidden="true">2</span>
+          <h3>{{ 'Act' | t }}</h3>
+          <p>{{ 'A next best action tells you who to follow up with, and when.' | t }}</p>
+        </li>
+        <li appReveal>
+          <span class="step-no" aria-hidden="true">3</span>
+          <h3>{{ 'Recover' | t }}</h3>
+          <p>{{ 'Draft the follow-up, send it, and track the revenue you win back.' | t }}</p>
+        </li>
+      </ol>
     </div>
   </section>
 
-  <section appReveal class="section" aria-labelledby="pricing">
-    <h2 id="pricing">{{ 'Pricing' | t }}</h2>
-    <div class="cards">
-      @for (plan of plans; track plan.id) {
-        <div appReveal class="card">
-          <h3>{{ plan.name }}</h3>
-          <p class="price">€{{ plan.priceEurMonthly }}<small>{{ '/month' | t }}</small></p>
-        </div>
-      }
+  <section class="block block-white" aria-labelledby="features">
+    <div class="wrap">
+      <h2 id="features" appReveal>{{ 'Built around one number' | t }}</h2>
+      <div class="cards">
+        <div appReveal class="card"><h3>{{ 'Revenue Radar' | t }}</h3><p>{{ 'See pipeline, revenue at risk and today’s actions at a glance.' | t }}</p></div>
+        <div appReveal class="card"><h3>{{ 'Next Best Action' | t }}</h3><p>{{ 'Deterministic, explainable recommendations — no black box.' | t }}</p></div>
+        <div appReveal class="card"><h3>{{ 'Revenue Recovered' | t }}</h3><p>{{ 'The metric that proves the product pays for itself.' | t }}</p></div>
+      </div>
     </div>
   </section>
 
-  <section appReveal class="section" aria-labelledby="faq">
-    <h2 id="faq">{{ 'FAQ' | t }}</h2>
-    <details><summary>{{ 'Do I need to connect my inbox?' | t }}</summary><p>{{ 'No. Start with the built-in simulation or a CSV import; Gmail and Outlook are optional.' | t }}</p></details>
-    <details><summary>{{ 'Is my data isolated from other companies?' | t }}</summary><p>{{ 'Yes. Every record belongs to one organization and is protected by database-level row security.' | t }}</p></details>
-    <details><summary>{{ 'Does simulation send real emails?' | t }}</summary><p>{{ 'Never. Simulated sends are only recorded inside the app.' | t }}</p></details>
+  <section class="block block-night" aria-labelledby="explain">
+    <div class="wrap split">
+      <div appReveal>
+        <h2 id="explain">{{ 'Explainable by design' | t }}</h2>
+        <p class="big">{{ 'Every score comes with its reasons. Nothing is a black box, so your team can trust it and act on it.' | t }}</p>
+        <ul class="ticks">
+          <li><strong>{{ 'Deterministic rules, not guesses' | t }}</strong><span>{{ 'The same inputs always give the same score.' | t }}</span></li>
+          <li><strong>{{ 'Reasons in plain language' | t }}</strong><span>{{ 'Each risk lists what drives it: silence, value, engagement, deadline.' | t }}</span></li>
+        </ul>
+      </div>
+      <div appReveal class="code" role="img" [attr.aria-label]="'Live risk score (example)' | t">
+        <div class="code-bar"><i></i><i></i><i></i><span>{{ 'Live risk score (example)' | t }}</span></div>
+<pre>{{ '{' }}
+  "score": 87,
+  "riskLevel": "CRITICAL",
+  "explanation": [
+    "18 days without response",
+    "High-value opportunity",
+    "Closing date approaching"
+  ]
+{{ '}' }}</pre>
+      </div>
+    </div>
   </section>
 
-  <section class="section final">
+  <section class="block block-white" aria-labelledby="integrations">
+    <div class="wrap">
+      <h2 id="integrations" appReveal>{{ 'Integrations' | t }}</h2>
+      <div class="cards">
+        <div appReveal class="card"><h3>Gmail</h3><p>{{ 'Connect your Google mailbox to detect opportunities automatically.' | t }}</p></div>
+        <div appReveal class="card"><h3>Outlook</h3><p>{{ 'Microsoft 365 support through Microsoft Graph.' | t }}</p></div>
+        <div appReveal class="card"><h3>{{ 'CSV & simulation' | t }}</h3><p>{{ 'Start today with a CSV import or the built-in demo data.' | t }}</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="block block-tint" aria-labelledby="pricing-title">
+    <div class="wrap">
+      <h2 id="pricing-title" appReveal>{{ 'Pricing' | t }}</h2>
+      <div class="cards">
+        @for (plan of plans; track plan.id) {
+          <div appReveal class="card">
+            <h3>{{ plan.name }}</h3>
+            <p class="price">€{{ plan.priceEurMonthly }}<small>{{ '/month' | t }}</small></p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="block block-white" aria-labelledby="faq-title">
+    <div class="wrap narrow">
+      <h2 id="faq-title" appReveal>{{ 'FAQ' | t }}</h2>
+      <details><summary>{{ 'Do I need to connect my inbox?' | t }}</summary><p>{{ 'No. Start with the built-in simulation or a CSV import; Gmail and Outlook are optional.' | t }}</p></details>
+      <details><summary>{{ 'Is my data isolated from other companies?' | t }}</summary><p>{{ 'Yes. Every record belongs to one organization and is protected by database-level row security.' | t }}</p></details>
+      <details><summary>{{ 'Does simulation send real emails?' | t }}</summary><p>{{ 'Never. Simulated sends are only recorded inside the app.' | t }}</p></details>
+    </div>
+  </section>
+
+  <section appReveal class="block block-blue final">
     <h2>{{ 'Find the revenue hiding in your pipeline.' | t }}</h2>
-    <a class="btn large" routerLink="/signup">{{ 'Analyze my pipeline' | t }}</a>
+    <a class="btn-lime" routerLink="/signup">{{ 'Analyze my pipeline' | t }} <span aria-hidden="true">→</span></a>
   </section>
 </main>
