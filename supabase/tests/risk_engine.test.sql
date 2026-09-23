@@ -1,7 +1,7 @@
 -- Risk Engine tests (§37). Run with `supabase test db` against a live project;
 -- rolled back at the end so nothing persists.
 begin;
-select plan(6);
+select plan(8);
 
 insert into organizations (id, name, slug)
 values ('00000000-0000-0000-0000-000000000001', 'Test Org', 'test-org');
@@ -79,6 +79,26 @@ select is(
 select ok(
   (select jsonb_array_length(calculate_risk_score(o) -> 'explanation') > 0 from opportunities o where id = '00000000-0000-0000-0000-0000000000a4'),
   'CRITICAL opportunity has a non-empty explanation'
+);
+
+-- "High-value" label only from 10 000: a 3 200 deal must not carry it.
+insert into opportunities (
+  id, organization_id, company_name, title, value, status,
+  last_contact_at, reply_count, expected_close_date
+) values (
+  '00000000-0000-0000-0000-0000000000a5', '00000000-0000-0000-0000-000000000001',
+  'Epsilon', 'Small deal', 3200, 'NEW',
+  now() - interval '10 days', 1, current_date + 60
+);
+
+select ok(
+  (select not (calculate_risk_score(o) -> 'explanation' ? 'High-value opportunity') from opportunities o where id = '00000000-0000-0000-0000-0000000000a5'),
+  'a 3 200 deal is not labeled high-value'
+);
+
+select ok(
+  (select calculate_risk_score(o) -> 'explanation' ? 'High-value opportunity' from opportunities o where id = '00000000-0000-0000-0000-0000000000a4'),
+  'a 20 000 deal is labeled high-value'
 );
 
 select * from finish();

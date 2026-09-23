@@ -60,7 +60,7 @@
           <td>{{ formatCurrency(opp.value, opp.currency) }}</td>
           <td><app-status-badge [status]="opp.status" /></td>
           <td>
-            @if (risksById().get(opp.id); as risk) {
+            @if (opp.status !== 'WON' && opp.status !== 'LOST' && risksById().get(opp.id); as risk) {
               <app-risk-badge [level]="risk.risk_level" [score]="risk.score" />
             } @else {
               <span class="muted">—</span>

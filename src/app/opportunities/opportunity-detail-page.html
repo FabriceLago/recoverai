@@ -13,7 +13,9 @@
     </div>
     <div class="header-actions">
       <app-status-badge [status]="opp.status" />
-      @if (riskScore(); as risk) {
+      @if (opp.status === 'WON' || opp.status === 'LOST') {
+        <span class="closed-tag">Closed</span>
+      } @else if (riskScore(); as risk) {
         <app-risk-badge [level]="risk.risk_level" [score]="risk.score" />
       }
       @if (opp.status !== 'WON' && opp.status !== 'LOST') {
@@ -70,7 +72,9 @@
     </div>
 
     <h2 class="section-title">Risk analysis</h2>
-    @if (riskScore(); as risk) {
+    @if (opp.status === 'WON' || opp.status === 'LOST') {
+      <p class="muted">This opportunity is closed, so it is no longer scored.</p>
+    } @else if (riskScore(); as risk) {
       <div class="overview-card">
         <div class="overview-row">
           <span class="label">Score</span>
