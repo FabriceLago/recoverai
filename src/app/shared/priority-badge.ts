@@ -1,4 +1,5 @@
 import { Component, computed, input } from '@angular/core';
+import { TranslatePipe } from '../core/i18n/translate.pipe';
 
 const PRIORITY_COLORS: Record<string, string> = {
   LOW: 'var(--text-secondary)',
@@ -8,8 +9,9 @@ const PRIORITY_COLORS: Record<string, string> = {
 };
 
 @Component({
+  imports: [TranslatePipe],
   selector: 'app-priority-badge',
-  template: `<span class="badge" [style.--badge-color]="color()">{{ priority() }}</span>`,
+  template: `<span class="badge" [style.--badge-color]="color()">{{ priority() | t }}</span>`,
   styles: [
     `
       .badge {

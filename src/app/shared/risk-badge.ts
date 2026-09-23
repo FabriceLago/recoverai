@@ -1,4 +1,5 @@
 import { Component, computed, input } from '@angular/core';
+import { TranslatePipe } from '../core/i18n/translate.pipe';
 
 const RISK_COLORS: Record<string, string> = {
   LOW: 'var(--risk-low)',
@@ -8,8 +9,9 @@ const RISK_COLORS: Record<string, string> = {
 };
 
 @Component({
+  imports: [TranslatePipe],
   selector: 'app-risk-badge',
-  template: `<span class="badge" [style.--badge-color]="color()">{{ level() }} · {{ score() }}/100</span>`,
+  template: `<span class="badge" [style.--badge-color]="color()">{{ level() | t }} · {{ score() }}/100</span>`,
   styles: [
     `
       .badge {

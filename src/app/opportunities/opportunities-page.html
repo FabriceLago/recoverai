@@ -1,24 +1,24 @@
 <div class="page-header">
   <div>
-    <h1>Opportunities</h1>
-    <p class="subtitle">{{ result().count }} total</p>
+    <h1>{{ 'Opportunities' | t }}</h1>
+    <p class="subtitle">{{ '{count} total' | t: { count: result().count } }}</p>
   </div>
-  <a class="btn-primary" routerLink="/opportunities/new">New opportunity</a>
+  <a class="btn-primary" routerLink="/opportunities/new">{{ 'New opportunity' | t }}</a>
 </div>
 
 <div class="toolbar">
   <input
     class="search"
     type="search"
-    aria-label="Search opportunities"
-    placeholder="Search by company or title…"
+    [attr.aria-label]="'Search opportunities' | t"
+    [placeholder]="'Search by company or title…' | t"
     [value]="search()"
     (input)="onSearch($event)"
   />
-  <select class="status-filter" aria-label="Filter by status" [value]="status()" (change)="onStatusChange($event)">
-    <option value="">All statuses</option>
+  <select class="status-filter" [attr.aria-label]="'Filter by status' | t" [value]="status()" (change)="onStatusChange($event)">
+    <option value="">{{ 'All statuses' | t }}</option>
     @for (s of statuses; track s) {
-      <option [value]="s">{{ s }}</option>
+      <option [value]="s">{{ s | t }}</option>
     }
   </select>
 </div>
@@ -35,20 +35,20 @@
   </div>
 } @else if (result().data.length === 0) {
   <div class="empty-state">
-    <p>No opportunities yet.</p>
-    <a routerLink="/opportunities/new">Create your first opportunity</a>
+    <p>{{ 'No opportunities yet.' | t }}</p>
+    <a routerLink="/opportunities/new">{{ 'Create your first opportunity' | t }}</a>
   </div>
 } @else {
   <table class="opps-table">
     <thead>
       <tr>
-        <th (click)="sortBy('title')">Opportunity</th>
-        <th (click)="sortBy('company_name')">Company</th>
-        <th (click)="sortBy('value')">Value</th>
-        <th>Status</th>
-        <th>Risk</th>
-        <th (click)="sortBy('last_contact_at')">Last Contact</th>
-        <th (click)="sortBy('expected_close_date')">Expected Close</th>
+        <th (click)="sortBy('title')">{{ 'Opportunity' | t }}</th>
+        <th (click)="sortBy('company_name')">{{ 'Company' | t }}</th>
+        <th (click)="sortBy('value')">{{ 'Value' | t }}</th>
+        <th>{{ 'Status' | t }}</th>
+        <th>{{ 'Risk' | t }}</th>
+        <th (click)="sortBy('last_contact_at')">{{ 'Last Contact' | t }}</th>
+        <th (click)="sortBy('expected_close_date')">{{ 'Expected Close' | t }}</th>
         <th></th>
       </tr>
     </thead>
@@ -68,15 +68,15 @@
           </td>
           <td>{{ formatDate(opp.last_contact_at) }}</td>
           <td>{{ formatDate(opp.expected_close_date) }}</td>
-          <td><a [routerLink]="['/opportunities', opp.id]">View</a></td>
+          <td><a [routerLink]="['/opportunities', opp.id]">{{ 'View' | t }}</a></td>
         </tr>
       }
     </tbody>
   </table>
 
   <div class="pagination">
-    <button type="button" [disabled]="page() === 0" (click)="prevPage()">Previous</button>
-    <span>Page {{ page() + 1 }} of {{ totalPages() }}</span>
-    <button type="button" [disabled]="page() + 1 >= totalPages()" (click)="nextPage()">Next</button>
+    <button type="button" [disabled]="page() === 0" (click)="prevPage()">{{ 'Previous' | t }}</button>
+    <span>{{ 'Page {page} of {total}' | t: { page: page() + 1, total: totalPages() } }}</span>
+    <button type="button" [disabled]="page() + 1 >= totalPages()" (click)="nextPage()">{{ 'Next' | t }}</button>
   </div>
 }

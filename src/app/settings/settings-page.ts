@@ -6,15 +6,19 @@ import type { EmailProviderName } from '../integrations/email-provider.model';
 import { BillingService } from '../billing/billing.service';
 import { ToastService } from '../core/toast.service';
 import type { PlanId } from '../billing/billing.model';
+import { TranslatePipe } from '../core/i18n/translate.pipe';
+import { I18nService } from '../core/i18n/i18n.service';
 
 type RealProvider = { name: Exclude<EmailProviderName, 'MOCK'>; label: string };
 
 @Component({
+  imports: [TranslatePipe],
   selector: 'app-settings-page',
   templateUrl: './settings-page.html',
   styleUrl: './settings-page.scss',
 })
 export class SettingsPage {
+  private readonly i18n = inject(I18nService);
   private readonly simulation = inject(SimulationService);
   private readonly organization = inject(OrganizationService);
   private readonly providers = inject(EmailProviderRegistry);
@@ -58,7 +62,7 @@ export class SettingsPage {
   async onConnect(name: RealProvider['name']) {
     const organizationId = this.organization.organizationId();
     if (!organizationId) {
-      this.integrationMessage.set('No organization found for your account yet.');
+      this.integrationMessage.set(this.i18n.t('No organization found for your account yet.'));
       return;
     }
     this.integrationMessage.set('');
@@ -66,7 +70,7 @@ export class SettingsPage {
       await this.providers.get(name).connect(organizationId);
       await this.loadStatuses();
     } catch (err) {
-      this.integrationMessage.set(err instanceof Error ? err.message : 'Failed to connect.');
+      this.integrationMessage.set(err instanceof Error ? err.message : this.i18n.t('Failed to connect.'));
     }
   }
 
@@ -75,14 +79,14 @@ export class SettingsPage {
     try {
       window.location.href = await this.billing.startCheckout(planId);
     } catch (err) {
-      this.billingMessage.set(err instanceof Error ? err.message : 'Failed to start checkout.');
+      this.billingMessage.set(err instanceof Error ? err.message : this.i18n.t('Failed to start checkout.'));
     }
   }
 
   async onActivate() {
     const organizationId = this.organization.organizationId();
     if (!organizationId) {
-      this.error.set('No organization found for your account yet.');
+      this.error.set(this.i18n.t('No organization found for your account yet.'));
       return;
     }
     this.activating.set(true);
@@ -91,9 +95,9 @@ export class SettingsPage {
     try {
       const count = await this.simulation.activate(organizationId);
       this.successMessage.set(`Created ${count} simulated opportunities.`);
-      this.toast.show(`Created ${count} simulated opportunities.`);
+      this.toast.show(this.i18n.t('Created {count} simulated opportunities.', { count }));
     } catch (err) {
-      this.error.set(err instanceof Error ? err.message : 'Failed to activate simulation.');
+      this.error.set(err instanceof Error ? err.message : this.i18n.t('Failed to activate simulation.'));
     } finally {
       this.activating.set(false);
     }

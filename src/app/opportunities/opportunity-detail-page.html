@@ -2,8 +2,8 @@
   <div class="skeleton-row" aria-hidden="true"></div>
 } @else if (notFound()) {
   <div class="empty-state">
-    <p>Opportunity not found.</p>
-    <a routerLink="/opportunities">Back to opportunities</a>
+    <p>{{ 'Opportunity not found.' | t }}</p>
+    <a routerLink="/opportunities">{{ 'Back to opportunities' | t }}</a>
   </div>
 } @else if (opportunity(); as opp) {
   <div class="page-header">
@@ -14,7 +14,7 @@
     <div class="header-actions">
       <app-status-badge [status]="opp.status" />
       @if (opp.status === 'WON' || opp.status === 'LOST') {
-        <span class="closed-tag">Closed</span>
+        <span class="closed-tag">{{ 'Closed' | t }}</span>
       } @else if (riskScore(); as risk) {
         <app-risk-badge [level]="risk.risk_level" [score]="risk.score" />
       }
@@ -25,13 +25,13 @@
           [disabled]="recovering()"
           (click)="onMarkAsRecovered()"
         >
-          {{ recovering() ? 'Recording…' : 'Mark as recovered' }}
+          {{ recovering() ? ('Recording…' | t) : ('Mark as recovered' | t) }}
         </button>
       }
       @if (!editing()) {
-        <button class="btn-secondary" type="button" (click)="editing.set(true)">Edit</button>
+        <button class="btn-secondary" type="button" (click)="editing.set(true)">{{ 'Edit' | t }}</button>
       }
-      <button class="btn-danger" type="button" (click)="onDelete()">Delete</button>
+      <button class="btn-danger" type="button" (click)="onDelete()">{{ 'Delete' | t }}</button>
     </div>
   </div>
 
@@ -41,7 +41,7 @@
 
   @if (editing()) {
     <app-opportunity-form
-      submitLabel="Save changes"
+      [submitLabel]="'Save changes' | t"
       [initialValue]="formValue()"
       [submitting]="saving()"
       [error]="error()"
@@ -50,81 +50,81 @@
   } @else {
     <div class="overview-card">
       <div class="overview-row">
-        <span class="label">Value</span>
+        <span class="label">{{ 'Value' | t }}</span>
         <span>{{ formatCurrency(opp.value, opp.currency) }}</span>
       </div>
       <div class="overview-row">
-        <span class="label">Contact</span>
+        <span class="label">{{ 'Contact' | t }}</span>
         <span>{{ opp.contact_name || '—' }} @if (opp.contact_email) { ({{ opp.contact_email }}) }</span>
       </div>
       <div class="overview-row">
-        <span class="label">Last contact</span>
+        <span class="label">{{ 'Last contact' | t }}</span>
         <span>{{ formatDate(opp.last_contact_at) }}</span>
       </div>
       <div class="overview-row">
-        <span class="label">Expected close</span>
+        <span class="label">{{ 'Expected close' | t }}</span>
         <span>{{ formatDate(opp.expected_close_date) }}</span>
       </div>
       <div class="overview-row">
-        <span class="label">Description</span>
+        <span class="label">{{ 'Description' | t }}</span>
         <span>{{ opp.description || '—' }}</span>
       </div>
     </div>
 
-    <h2 class="section-title">Risk analysis</h2>
+    <h2 class="section-title">{{ 'Risk analysis' | t }}</h2>
     @if (opp.status === 'WON' || opp.status === 'LOST') {
-      <p class="muted">This opportunity is closed, so it is no longer scored.</p>
+      <p class="muted">{{ 'This opportunity is closed, so it is no longer scored.' | t }}</p>
     } @else if (riskScore(); as risk) {
       <div class="overview-card">
         <div class="overview-row">
-          <span class="label">Score</span>
+          <span class="label">{{ 'Score' | t }}</span>
           <app-risk-badge [level]="risk.risk_level" [score]="risk.score" />
         </div>
         @if (risk.explanation.length > 0) {
           <ul class="explanation-list">
             @for (reason of risk.explanation; track reason) {
-              <li>{{ reason }}</li>
+              <li>{{ reason | tdb }}</li>
             }
           </ul>
         } @else {
-          <p class="muted">No risk factors detected.</p>
+          <p class="muted">{{ 'No risk factors detected.' | t }}</p>
         }
       </div>
     } @else {
-      <p class="muted">Risk score not available yet.</p>
+      <p class="muted">{{ 'Risk score not available yet.' | t }}</p>
     }
 
-    <h2 class="section-title">Recommended action</h2>
+    <h2 class="section-title">{{ 'Recommended action' | t }}</h2>
     @if (recommendedAction(); as action) {
       <div class="overview-card">
         <div class="overview-row">
-          <span class="label">{{ action.title }}</span>
+          <span class="label">{{ action.title | tdb }}</span>
           <app-priority-badge [priority]="action.priority" />
         </div>
         @if (action.description) {
-          <p class="muted">{{ action.description }}</p>
+          <p class="muted">{{ action.description | tdb }}</p>
         }
         @if (action.reason) {
-          <p class="reason">{{ action.reason }}</p>
+          <p class="reason">{{ action.reason | tdb }}</p>
         }
         @if (action.status === 'PENDING') {
           <div class="action-buttons">
-            <button type="button" class="btn-secondary" (click)="onDismissAction()">Dismiss</button>
-            <button type="button" class="btn-primary" (click)="onCompleteAction()">Complete</button>
+            <button type="button" class="btn-secondary" (click)="onDismissAction()">{{ 'Dismiss' | t }}</button>
+            <button type="button" class="btn-primary" (click)="onCompleteAction()">{{ 'Complete' | t }}</button>
           </div>
         }
       </div>
     } @else {
-      <p class="muted">No action recommended right now.</p>
+      <p class="muted">{{ 'No action recommended right now.' | t }}</p>
     }
 
-    <h2 class="section-title">Suggested email</h2>
+    <h2 class="section-title">{{ 'Suggested email' | t }}</h2>
     <div class="overview-card">
       @if (emailError()) {
         <div class="form-error">{{ emailError() }}</div>
       }
       @if (emailSentAt()) {
-        <div class="form-success">Simulation: email recorded as sent.</div>
+        <div class="form-success">{{ 'Simulation: email recorded as sent.' | t }}</div>
       }
 
       @if (!emailDraft()) {
@@ -134,15 +134,15 @@
           [disabled]="generatingEmail()"
           (click)="onGenerateEmail()"
         >
-          {{ generatingEmail() ? 'Generating…' : 'Generate follow-up' }}
+          {{ generatingEmail() ? ('Generating…' | t) : ('Generate follow-up' | t) }}
         </button>
       } @else {
         <div class="field">
-          <label for="email-subject">To</label>
+          <label for="email-subject">{{ 'To' | t }}</label>
           <input id="email-to" type="text" [value]="opp.contact_email || opp.company_name" disabled />
         </div>
         <div class="field">
-          <label for="email-subject">Subject</label>
+          <label for="email-subject">{{ 'Subject' | t }}</label>
           <input
             id="email-subject"
             type="text"
@@ -151,7 +151,7 @@
           />
         </div>
         <div class="field">
-          <label for="email-body">Message</label>
+          <label for="email-body">{{ 'Message' | t }}</label>
           <textarea
             id="email-body"
             rows="6"
@@ -166,7 +166,7 @@
             [disabled]="generatingEmail() || sendingEmail()"
             (click)="onGenerateEmail()"
           >
-            {{ generatingEmail() ? 'Regenerating…' : 'Regenerate' }}
+            {{ generatingEmail() ? ('Regenerating…' | t) : ('Regenerate' | t) }}
           </button>
           <button
             type="button"
@@ -174,21 +174,21 @@
             [disabled]="sendingEmail()"
             (click)="onSendEmail()"
           >
-            {{ sendingEmail() ? 'Sending…' : 'Send (simulated)' }}
+            {{ sendingEmail() ? ('Sending…' | t) : ('Send (simulated)' | t) }}
           </button>
         </div>
       }
     </div>
 
-    <h2 class="section-title">Timeline</h2>
+    <h2 class="section-title">{{ 'Timeline' | t }}</h2>
     @if (timeline().length === 0) {
-      <p class="muted">No activity yet.</p>
+      <p class="muted">{{ 'No activity yet.' | t }}</p>
     } @else {
       <ul class="timeline">
         @for (entry of timeline(); track entry.at + entry.type) {
           <li class="timeline-entry">
             <span class="timeline-date">{{ formatDate(entry.at) }}</span>
-            <span class="timeline-label">{{ entry.label }}</span>
+            <span class="timeline-label">{{ entry.label | tdb }}</span>
           </li>
         }
       </ul>

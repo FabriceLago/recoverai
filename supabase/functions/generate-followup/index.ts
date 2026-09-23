@@ -8,6 +8,7 @@ const corsHeaders = {
 };
 
 interface GenerateFollowupRequest {
+  language?: 'en' | 'fr';
   opportunity: {
     company_name: string;
     contact_name: string | null;
@@ -54,7 +55,8 @@ Deno.serve(async (req: Request) => {
       return jsonResponse({ error: 'Unauthorized' }, 401);
     }
 
-    const { opportunity, recommended_action }: GenerateFollowupRequest = await req.json();
+    const { opportunity, recommended_action, language }: GenerateFollowupRequest = await req.json();
+    const languageName = language === 'fr' ? 'French' : 'English';
     if (!opportunity?.company_name || !opportunity?.title) {
       return jsonResponse({ error: 'Missing opportunity details' }, 400);
     }
@@ -91,7 +93,7 @@ Deno.serve(async (req: Request) => {
       'Rules:',
       '- Keep it short and natural, not pushy or salesy.',
       '- Use only the facts given below. Never invent details, numbers, or prior conversations that were not provided.',
-      '- Write in English unless the facts clearly indicate another language.',
+      `- Write the email in ${languageName}.`,
       '- End with one clear call to action.',
       '- Return strict JSON: {"subject": string, "body": string}. No markdown, no extra keys.',
     ].join('\n');

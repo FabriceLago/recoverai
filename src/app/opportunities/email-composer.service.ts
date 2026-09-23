@@ -1,17 +1,21 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { supabase } from '../core/supabase.client';
+import { I18nService } from '../core/i18n/i18n.service';
 import type { Opportunity } from './opportunity.model';
 import type { RecommendedAction } from '../actions/action.model';
 import type { GeneratedEmail } from './email-composer.model';
 
 @Injectable({ providedIn: 'root' })
 export class EmailComposerService {
+  private readonly i18n = inject(I18nService);
+
   async generate(
     opportunity: Opportunity,
     recommendedAction: RecommendedAction | null,
   ): Promise<GeneratedEmail> {
     const { data, error } = await supabase.functions.invoke('generate-followup', {
       body: {
+        language: this.i18n.lang(),
         opportunity: {
           company_name: opportunity.company_name,
           contact_name: opportunity.contact_name,

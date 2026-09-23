@@ -1,7 +1,8 @@
 <div class="auth-shell">
+  <div class="lang-corner"><app-language-switcher /></div>
   <div class="auth-card">
-    <h1>Sign in</h1>
-    <p class="subtitle">Welcome back to RecoverAI.</p>
+    <h1>{{ 'Sign in' | t }}</h1>
+    <p class="subtitle">{{ 'Welcome back to RecoverAI.' | t }}</p>
 
     @if (errorMessage()) {
       <div class="form-error">{{ errorMessage() }}</div>
@@ -9,29 +10,29 @@
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="field">
-        <label for="email">Email</label>
+        <label for="email">{{ 'Email' | t }}</label>
         <input id="email" type="email" formControlName="email" autocomplete="email" />
         @if (form.controls.email.touched && form.controls.email.invalid) {
-          <span class="field-error">Enter a valid email address.</span>
+          <span class="field-error">{{ 'Enter a valid email address.' | t }}</span>
         }
       </div>
 
       <div class="field">
-        <label for="password">Password</label>
+        <label for="password">{{ 'Password' | t }}</label>
         <input id="password" type="password" formControlName="password" autocomplete="current-password" />
         @if (form.controls.password.touched && form.controls.password.invalid) {
-          <span class="field-error">Password is required.</span>
+          <span class="field-error">{{ 'Password is required.' | t }}</span>
         }
       </div>
 
       <button class="submit" type="submit" [disabled]="form.invalid || submitting()">
-        {{ submitting() ? 'Signing in…' : 'Sign in' }}
+        {{ submitting() ? ('Signing in…' | t) : ('Sign in' | t) }}
       </button>
     </form>
 
     <div class="auth-links">
-      <a routerLink="/forgot-password">Forgot password?</a>
-      <a routerLink="/signup">Create account</a>
+      <a routerLink="/forgot-password">{{ 'Forgot password?' | t }}</a>
+      <a routerLink="/signup">{{ 'Create account' | t }}</a>
     </div>
   </div>
 </div>

@@ -6,16 +6,19 @@ import { OpportunitiesService, type OpportunityListResult } from './opportunitie
 import { RiskScoresService } from './risk-scores.service';
 import { OPPORTUNITY_STATUSES, type Opportunity, type OpportunityStatus } from './opportunity.model';
 import type { OpportunityRiskScore } from './risk-score.model';
+import { TranslatePipe } from '../core/i18n/translate.pipe';
+import { I18nService } from '../core/i18n/i18n.service';
 
 const PAGE_SIZE = 20;
 
 @Component({
   selector: 'app-opportunities-page',
-  imports: [RouterLink, StatusBadge, RiskBadge],
+  imports: [RouterLink, StatusBadge, RiskBadge, TranslatePipe],
   templateUrl: './opportunities-page.html',
   styleUrl: './opportunities-page.scss',
 })
 export class OpportunitiesPage {
+  private readonly i18n = inject(I18nService);
   private readonly opportunities = inject(OpportunitiesService);
   private readonly riskScores = inject(RiskScoresService);
   private searchDebounce?: ReturnType<typeof setTimeout>;
@@ -57,7 +60,7 @@ export class OpportunitiesPage {
         .then((map) => this.risksById.set(map))
         .catch(() => this.risksById.set(new Map()));
     } catch (err) {
-      this.error.set(err instanceof Error ? err.message : 'Failed to load opportunities.');
+      this.error.set(err instanceof Error ? err.message : this.i18n.t('Failed to load opportunities.'));
     } finally {
       this.loading.set(false);
     }
@@ -101,12 +104,12 @@ export class OpportunitiesPage {
   }
 
   formatCurrency(value: number, currency: string) {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(value);
+    return new Intl.NumberFormat(this.i18n.locale(), { style: 'currency', currency }).format(value);
   }
 
   formatDate(value: string | null) {
     if (!value) return '—';
-    return new Intl.DateTimeFormat('en-US', { day: '2-digit', month: 'short' }).format(
+    return new Intl.DateTimeFormat(this.i18n.locale(), { day: '2-digit', month: 'short' }).format(
       new Date(value),
     );
   }

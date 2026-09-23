@@ -4,16 +4,19 @@ import { parseCsv } from './csv-parser';
 import { CsvImportService } from './csv-import.service';
 import { OrganizationService } from '../core/organization.service';
 import type { ColumnMapping, ValidatedRow } from './csv-import.model';
+import { TranslatePipe } from '../core/i18n/translate.pipe';
+import { I18nService } from '../core/i18n/i18n.service';
 
 type Step = 'upload' | 'preview' | 'done';
 
 @Component({
   selector: 'app-import-page',
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe],
   templateUrl: './import-page.html',
   styleUrl: './import-page.scss',
 })
 export class ImportPage {
+  private readonly i18n = inject(I18nService);
   private readonly csvImport = inject(CsvImportService);
   private readonly organization = inject(OrganizationService);
 
@@ -35,14 +38,14 @@ export class ImportPage {
       const text = await file.text();
       const table = parseCsv(text);
       if (table.length === 0) {
-        this.error.set('The file is empty.');
+        this.error.set(this.i18n.t('The file is empty.'));
         return;
       }
 
       const [headerRow, ...dataRows] = table;
       const mapping: ColumnMapping = this.csvImport.detectMapping(headerRow);
       if (mapping.company_name === undefined || mapping.title === undefined) {
-        this.error.set('CSV must include at least company_name and title columns.');
+        this.error.set(this.i18n.t('CSV must include at least company_name and title columns.'));
         return;
       }
 
@@ -53,14 +56,14 @@ export class ImportPage {
       this.rows.set(validated);
       this.step.set('preview');
     } catch (err) {
-      this.error.set(err instanceof Error ? err.message : 'Failed to read the file.');
+      this.error.set(err instanceof Error ? err.message : this.i18n.t('Failed to read the file.'));
     }
   }
 
   async onImport() {
     const organizationId = this.organization.organizationId();
     if (!organizationId) {
-      this.error.set('No organization found for your account yet.');
+      this.error.set(this.i18n.t('No organization found for your account yet.'));
       return;
     }
     const validRows = this.rows()
@@ -74,7 +77,7 @@ export class ImportPage {
       this.importedCount.set(count);
       this.step.set('done');
     } catch (err) {
-      this.error.set(err instanceof Error ? err.message : 'Failed to import opportunities.');
+      this.error.set(err instanceof Error ? err.message : this.i18n.t('Failed to import opportunities.'));
     } finally {
       this.importing.set(false);
     }
@@ -87,6 +90,6 @@ export class ImportPage {
   }
 
   formatCurrency(value: number, currency: string) {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(value);
+    return new Intl.NumberFormat(this.i18n.locale(), { style: 'currency', currency }).format(value);
   }
 }

@@ -1,12 +1,11 @@
 <div class="page-header">
-  <h1>Settings</h1>
+  <h1>{{ 'Settings' | t }}</h1>
 </div>
 
-<h2 class="section-title">Integrations</h2>
+<h2 class="section-title">{{ 'Integrations' | t }}</h2>
 <div class="settings-card">
   <p class="description">
-    RecoverAI runs fully on a built-in simulated inbox. Connecting a real mailbox is optional and
-    never required to use the app.
+    {{ 'RecoverAI runs fully on a built-in simulated inbox. Connecting a real mailbox is optional and never required to use the app.' | t }}
   </p>
 
   @if (integrationMessage()) {
@@ -16,8 +15,8 @@
   <ul class="integration-list">
     <li class="integration-row">
       <div>
-        <strong>Simulated inbox</strong>
-        <span class="status status-connected">Connected</span>
+        <strong>{{ 'Simulated inbox' | t }}</strong>
+        <span class="status status-connected">{{ 'Connected' | t }}</span>
       </div>
     </li>
     @for (provider of realProviders; track provider.name) {
@@ -28,23 +27,21 @@
             class="status"
             [class.status-connected]="statuses()[provider.name] === 'CONNECTED'"
           >
-            {{ statuses()[provider.name] === 'CONNECTED' ? 'Connected' : 'Not connected' }}
+            {{ statuses()[provider.name] === 'CONNECTED' ? ('Connected' | t) : ('Not connected' | t) }}
           </span>
         </div>
         <button type="button" class="btn-secondary" (click)="onConnect(provider.name)">
-          Connect
+          {{ 'Connect' | t }}
         </button>
       </li>
     }
   </ul>
 </div>
 
-<h2 class="section-title">Simulation</h2>
+<h2 class="section-title">{{ 'Simulation' | t }}</h2>
 <div class="settings-card">
   <p class="description">
-    Generate 15–30 realistic demo opportunities to explore the full RecoverAI
-    workflow without connecting real data. Simulated opportunities are tagged
-    and can be identified anywhere in the app.
+    {{ 'Generate 15–30 realistic demo opportunities to explore the full RecoverAI workflow without connecting real data. Simulated opportunities are tagged and can be identified anywhere in the app.' | t }}
   </p>
 
   @if (error()) {
@@ -55,15 +52,14 @@
   }
 
   <button type="button" class="btn-primary" [disabled]="activating()" (click)="onActivate()">
-    {{ activating() ? 'Generating…' : 'Activate simulation' }}
+    {{ activating() ? ('Generating…' | t) : ('Activate simulation' | t) }}
   </button>
 </div>
 
-<h2 class="section-title">Billing</h2>
+<h2 class="section-title">{{ 'Billing' | t }}</h2>
 <div class="settings-card">
   <p class="description">
-    Payment is optional for the demo. Plans below are prepared for Stripe and only activate once
-    billing is configured for this project.
+    {{ 'Payment is optional for the demo. Plans below are prepared for Stripe and only activate once billing is configured for this project.' | t }}
   </p>
 
   @if (billingMessage()) {
@@ -75,10 +71,10 @@
       <li class="integration-row">
         <div>
           <strong>{{ plan.name }}</strong>
-          <span class="status">€{{ plan.priceEurMonthly }}/month</span>
+          <span class="status">€{{ plan.priceEurMonthly }}{{ '/month' | t }}</span>
         </div>
         <button type="button" class="btn-secondary" (click)="onSubscribe(plan.id)">
-          Subscribe
+          {{ 'Subscribe' | t }}
         </button>
       </li>
     }

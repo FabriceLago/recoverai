@@ -1,6 +1,6 @@
 <div class="page-header">
-  <h1>Revenue Radar</h1>
-  <p class="subtitle">Here are the opportunities that need your attention.</p>
+  <h1>{{ 'Revenue Radar' | t }}</h1>
+  <p class="subtitle">{{ 'Here are the opportunities that need your attention.' | t }}</p>
 </div>
 
 @if (error()) {
@@ -17,7 +17,7 @@
 } @else if (kpis(); as k) {
   <app-kpi-card
     class="hero-kpi"
-    label="Revenue at Risk"
+    [label]="'Revenue at Risk' | t"
     [value]="formatCurrency(k.revenue_at_risk)"
     [emphasis]="true"
   >
@@ -41,7 +41,7 @@
         @for (seg of spectrum(); track seg.level) {
           <li>
             <span class="dot" [style.--seg-color]="'var(--risk-' + seg.level.toLowerCase() + ')'"></span>
-            <span class="lvl">{{ seg.level }}</span>
+            <span class="lvl">{{ seg.level | t }}</span>
             <span class="num">{{ formatCurrency(seg.amount) }}</span>
           </li>
         }
@@ -50,20 +50,20 @@
   </app-kpi-card>
 
   <div class="kpi-grid">
-    <app-kpi-card style="--kpi-delay: 60ms" label="Revenue Pipeline" [value]="formatCurrency(k.revenue_pipeline)" />
-    <app-kpi-card style="--kpi-delay: 120ms" label="Actions Today" [value]="k.actions_today.toString()" />
-    <app-kpi-card style="--kpi-delay: 180ms" label="Revenue Recovered" [value]="formatCurrency(k.revenue_recovered)" />
+    <app-kpi-card style="--kpi-delay: 60ms" [label]="'Revenue Pipeline' | t" [value]="formatCurrency(k.revenue_pipeline)" />
+    <app-kpi-card style="--kpi-delay: 120ms" [label]="'Actions Today' | t" [value]="k.actions_today.toString()" />
+    <app-kpi-card style="--kpi-delay: 180ms" [label]="'Revenue Recovered' | t" [value]="formatCurrency(k.revenue_recovered)" />
   </div>
 }
 
-<h2 class="section-title">Needs Attention</h2>
+<h2 class="section-title">{{ 'Needs Attention' | t }}</h2>
 
 @if (loadingAttention()) {
   <div class="skeleton-row" aria-hidden="true"></div>
 } @else if (needsAttention().length === 0) {
   <div class="empty-state">
-    <p>No opportunities need attention right now.</p>
-    <a routerLink="/opportunities">View all opportunities</a>
+    <p>{{ 'No opportunities need attention right now.' | t }}</p>
+    <a routerLink="/opportunities">{{ 'View all opportunities' | t }}</a>
   </div>
 } @else {
   <div class="attention-list">
@@ -80,14 +80,14 @@
           </div>
         </div>
         @if (opp.risk_explanation.length > 0) {
-          <p class="reason">{{ opp.risk_explanation.join(' · ') }}</p>
+          <p class="reason">{{ opp.risk_explanation.join(' · ') | tdb }}</p>
         }
         <p class="silence num">{{ daysSince(opp.last_contact_at) }}</p>
         <a class="cta" [routerLink]="['/opportunities', opp.id]">
           @if (actionsById().get(opp.id); as action) {
-            {{ action.title }} →
+            {{ action.title | tdb }} →
           } @else {
-            View opportunity →
+            {{ 'View opportunity →' | t }}
           }
         </a>
       </div>

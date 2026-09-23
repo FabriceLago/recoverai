@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h1>Action Center</h1>
+  <h1>{{ 'Action Center' | t }}</h1>
 </div>
 
 @if (error()) {
@@ -13,7 +13,7 @@
     [class.active]="tab() === 'today'"
     (click)="setTab('today')"
   >
-    Today ({{ today().length }})
+    {{ 'Today' | t }} ({{ today().length }})
   </button>
   <button
     type="button"
@@ -21,7 +21,7 @@
     [class.active]="tab() === 'upcoming'"
     (click)="setTab('upcoming')"
   >
-    Upcoming ({{ upcoming().length }})
+    {{ 'Upcoming' | t }} ({{ upcoming().length }})
   </button>
   <button
     type="button"
@@ -29,7 +29,7 @@
     [class.active]="tab() === 'completed'"
     (click)="setTab('completed')"
   >
-    Completed
+    {{ 'Completed' | t }}
   </button>
 </div>
 
@@ -37,7 +37,7 @@
   <div class="skeleton-row" aria-hidden="true"></div>
 } @else if (visibleActions().length === 0) {
   <div class="empty-state">
-    <p>Nothing here.</p>
+    <p>{{ 'Nothing here.' | t }}</p>
   </div>
 } @else {
   <div class="action-list">
@@ -46,20 +46,20 @@
         <div class="action-main">
           <div>
             <p class="company">{{ action.opportunity.company_name }}</p>
-            <p class="title">{{ action.title }}</p>
+            <p class="title">{{ action.title | tdb }}</p>
             <p class="opp-title">{{ action.opportunity.title }}</p>
           </div>
           <app-priority-badge [priority]="action.priority" />
         </div>
         @if (action.reason) {
-          <p class="reason">{{ action.reason }}</p>
+          <p class="reason">{{ action.reason | tdb }}</p>
         }
         <div class="action-footer">
-          <a [routerLink]="['/opportunities', action.opportunity_id]">View opportunity →</a>
+          <a [routerLink]="['/opportunities', action.opportunity_id]">{{ 'View opportunity →' | t }}</a>
           @if (action.status === 'PENDING') {
             <div class="action-buttons">
-              <button type="button" class="btn-secondary" (click)="onDismiss(action.id)">Dismiss</button>
-              <button type="button" class="btn-primary" (click)="onComplete(action.id)">Complete</button>
+              <button type="button" class="btn-secondary" (click)="onDismiss(action.id)">{{ 'Dismiss' | t }}</button>
+              <button type="button" class="btn-primary" (click)="onComplete(action.id)">{{ 'Complete' | t }}</button>
             </div>
           }
         </div>

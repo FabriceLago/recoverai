@@ -20,7 +20,7 @@ export class OrganizationService {
   async refresh(): Promise<void> {
     const userId = this.auth.session()?.user.id;
     if (!userId) return;
-    const { data } = await supabase.from('profiles').select('organization_id').eq('id', userId).single();
+    const { data } = await supabase.from('profiles').select('organization_id').eq('id', userId).maybeSingle();
     this.organizationId.set(data?.['organization_id'] ?? null);
   }
 }

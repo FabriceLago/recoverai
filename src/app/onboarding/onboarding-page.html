@@ -1,7 +1,8 @@
 <div class="auth-shell">
+  <div class="lang-corner"><app-language-switcher /></div>
   <div class="auth-card wide">
-    <h1>Set up your workspace</h1>
-    <p class="subtitle">Two quick steps and you'll see your Revenue Radar.</p>
+    <h1>{{ 'Set up your workspace' | t }}</h1>
+    <p class="subtitle">{{ 'Two quick steps and you’ll see your Revenue Radar.' | t }}</p>
 
     @if (errorMessage()) {
       <div class="form-error" role="alert">{{ errorMessage() }}</div>
@@ -9,28 +10,28 @@
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="field">
-        <label for="name">Company name</label>
+        <label for="name">{{ 'Company name' | t }}</label>
         <input id="name" type="text" formControlName="name" autocomplete="organization" />
         @if (form.controls.name.touched && form.controls.name.invalid) {
-          <span class="field-error">Company name is required.</span>
+          <span class="field-error">{{ 'Company name is required.' | t }}</span>
         }
       </div>
 
       <fieldset class="choices">
-        <legend>How do you want to start?</legend>
+        <legend>{{ 'How do you want to start?' | t }}</legend>
         @for (option of options; track option.value) {
           <label class="choice">
             <input type="radio" formControlName="start" [value]="option.value" />
             <span>
-              <strong>{{ option.label }}</strong>
-              <small>{{ option.hint }}</small>
+              <strong>{{ option.label | t }}</strong>
+              <small>{{ option.hint | t }}</small>
             </span>
           </label>
         }
       </fieldset>
 
       <button class="submit" type="submit" [disabled]="form.invalid || submitting()">
-        {{ submitting() ? 'Creating workspace…' : 'Create workspace' }}
+        {{ submitting() ? ('Creating workspace…' | t) : ('Create workspace' | t) }}
       </button>
     </form>
   </div>

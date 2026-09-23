@@ -8,6 +8,9 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../core/auth.service';
+import { TranslatePipe } from '../core/i18n/translate.pipe';
+import { LanguageSwitcher } from '../core/i18n/language-switcher';
+import { I18nService } from '../core/i18n/i18n.service';
 
 function passwordsMatch(control: AbstractControl): ValidationErrors | null {
   const password = control.get('password')?.value;
@@ -17,11 +20,12 @@ function passwordsMatch(control: AbstractControl): ValidationErrors | null {
 
 @Component({
   selector: 'app-signup-page',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, TranslatePipe, LanguageSwitcher],
   templateUrl: './signup-page.html',
   styleUrls: ['./auth-card.scss'],
 })
 export class SignupPage {
+  private readonly i18n = inject(I18nService);
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly auth = inject(AuthService);
@@ -57,7 +61,7 @@ export class SignupPage {
     if (data.session) {
       this.router.navigateByUrl('/onboarding');
     } else {
-      this.successMessage.set('Check your inbox to confirm your email, then sign in.');
+      this.successMessage.set(this.i18n.t('Check your inbox to confirm your email, then sign in.'));
     }
   }
 }

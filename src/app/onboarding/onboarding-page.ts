@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { supabase } from '../core/supabase.client';
 import { SimulationService } from '../import/simulation.service';
 import { OrganizationService } from '../core/organization.service';
+import { I18nService } from '../core/i18n/i18n.service';
+import { TranslatePipe } from '../core/i18n/translate.pipe';
+import { LanguageSwitcher } from '../core/i18n/language-switcher';
 
 type Start = 'simulation' | 'csv' | 'empty';
 
@@ -11,13 +14,14 @@ type Start = 'simulation' | 'csv' | 'empty';
 // volume / average deal value from §11). Add those columns when something uses them.
 @Component({
   selector: 'app-onboarding-page',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, TranslatePipe, LanguageSwitcher],
   templateUrl: './onboarding-page.html',
   styleUrls: ['../auth/auth-card.scss', './onboarding-page.scss'],
 })
 export class OnboardingPage {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
+  private readonly i18n = inject(I18nService);
   private readonly simulation = inject(SimulationService);
   private readonly organization = inject(OrganizationService);
 
@@ -56,7 +60,7 @@ export class OnboardingPage {
         await this.router.navigateByUrl('/dashboard');
       }
     } catch (err) {
-      this.errorMessage.set(err instanceof Error ? err.message : 'Could not create your workspace.');
+      this.errorMessage.set(err instanceof Error ? err.message : this.i18n.t('Could not create your workspace.'));
     } finally {
       this.submitting.set(false);
     }

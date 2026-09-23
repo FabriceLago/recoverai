@@ -1,4 +1,5 @@
 import { Component, computed, input } from '@angular/core';
+import { TranslatePipe } from '../core/i18n/translate.pipe';
 
 const STATUS_COLORS: Record<string, string> = {
   NEW: 'var(--accent)',
@@ -11,8 +12,9 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 @Component({
+  imports: [TranslatePipe],
   selector: 'app-status-badge',
-  template: `<span class="badge" [style.--badge-color]="color()">{{ status() }}</span>`,
+  template: `<span class="badge" [style.--badge-color]="color()">{{ status() | t }}</span>`,
   styles: [
     `
       .badge {

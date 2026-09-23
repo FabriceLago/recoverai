@@ -3,16 +3,19 @@ import { RouterLink } from '@angular/router';
 import { PriorityBadge } from '../shared/priority-badge';
 import { ActionsService } from './actions.service';
 import type { RecommendedAction } from './action.model';
+import { TranslatePipe, TranslateDbPipe } from '../core/i18n/translate.pipe';
+import { I18nService } from '../core/i18n/i18n.service';
 
 type Tab = 'today' | 'upcoming' | 'completed';
 
 @Component({
   selector: 'app-actions-page',
-  imports: [RouterLink, PriorityBadge],
+  imports: [RouterLink, PriorityBadge, TranslatePipe, TranslateDbPipe],
   templateUrl: './actions-page.html',
   styleUrl: './actions-page.scss',
 })
 export class ActionsPage {
+  private readonly i18n = inject(I18nService);
   private readonly actions = inject(ActionsService);
 
   readonly tab = signal<Tab>('today');
@@ -51,7 +54,7 @@ export class ActionsPage {
       this.upcoming.set(upcoming);
       this.completed.set(completed);
     } catch (err) {
-      this.error.set(err instanceof Error ? err.message : 'Failed to load actions.');
+      this.error.set(err instanceof Error ? err.message : this.i18n.t('Failed to load actions.'));
     } finally {
       this.loading.set(false);
     }
@@ -66,7 +69,7 @@ export class ActionsPage {
       await this.actions.complete(id);
       await this.load();
     } catch (err) {
-      this.error.set(err instanceof Error ? err.message : 'Failed to complete action.');
+      this.error.set(err instanceof Error ? err.message : this.i18n.t('Failed to complete action.'));
     }
   }
 
@@ -75,7 +78,7 @@ export class ActionsPage {
       await this.actions.dismiss(id);
       await this.load();
     } catch (err) {
-      this.error.set(err instanceof Error ? err.message : 'Failed to dismiss action.');
+      this.error.set(err instanceof Error ? err.message : this.i18n.t('Failed to dismiss action.'));
     }
   }
 }

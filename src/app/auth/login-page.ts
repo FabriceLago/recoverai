@@ -2,10 +2,12 @@ import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../core/auth.service';
+import { TranslatePipe } from '../core/i18n/translate.pipe';
+import { LanguageSwitcher } from '../core/i18n/language-switcher';
 
 @Component({
   selector: 'app-login-page',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, TranslatePipe, LanguageSwitcher],
   templateUrl: './login-page.html',
   styleUrls: ['./auth-card.scss'],
 })

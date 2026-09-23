@@ -1,6 +1,6 @@
 <div class="page-header">
-  <h1>Import opportunities</h1>
-  <p class="subtitle">Upload a CSV with your opportunities.</p>
+  <h1>{{ 'Import opportunities' | t }}</h1>
+  <p class="subtitle">{{ 'Upload a CSV with your opportunities.' | t }}</p>
 </div>
 
 @if (error()) {
@@ -11,29 +11,28 @@
   <div class="upload-card">
     <input type="file" accept=".csv,text/csv" (change)="onFileSelected($event)" />
     <p class="hint">
-      Expected columns: company_name, contact_name, contact_email, title, value, currency, status,
-      created_at, last_contact_at, expected_close_date, email_count, reply_count.
+      {{ 'Expected columns: company_name, contact_name, contact_email, title, value, currency, status, created_at, last_contact_at, expected_close_date, email_count, reply_count.' | t }}
     </p>
   </div>
 }
 
 @if (step() === 'preview') {
   <div class="summary-row">
-    <span class="valid-count">{{ validCount() }} valid</span>
+    <span class="valid-count">{{ '{count} valid' | t: { count: validCount() } }}</span>
     @if (invalidCount() > 0) {
-      <span class="invalid-count">{{ invalidCount() }} with errors (will be skipped)</span>
+      <span class="invalid-count">{{ '{count} with errors (will be skipped)' | t: { count: invalidCount() } }}</span>
     }
   </div>
 
   <table class="preview-table">
     <thead>
       <tr>
-        <th>Row</th>
-        <th>Company</th>
-        <th>Title</th>
-        <th>Value</th>
-        <th>Status</th>
-        <th>Errors</th>
+        <th>{{ 'Row' | t }}</th>
+        <th>{{ 'Company' | t }}</th>
+        <th>{{ 'Title' | t }}</th>
+        <th>{{ 'Value' | t }}</th>
+        <th>{{ 'Status' | t }}</th>
+        <th>{{ 'Errors' | t }}</th>
       </tr>
     </thead>
     <tbody>
@@ -43,7 +42,7 @@
           <td>{{ row.value?.company_name || row.raw[0] || '—' }}</td>
           <td>{{ row.value?.title || row.raw[1] || '—' }}</td>
           <td>{{ row.value ? formatCurrency(row.value.value, row.value.currency) : '—' }}</td>
-          <td>{{ row.value?.status || '—' }}</td>
+          <td>{{ row.value ? (row.value.status | t) : '—' }}</td>
           <td class="errors-cell">
             @if (row.errors.length > 0) {
               <ul>
@@ -59,21 +58,21 @@
   </table>
 
   <div class="actions">
-    <button type="button" class="btn-secondary" (click)="reset()">Start over</button>
+    <button type="button" class="btn-secondary" (click)="reset()">{{ 'Start over' | t }}</button>
     <button
       type="button"
       class="btn-primary"
       [disabled]="validCount() === 0 || importing()"
       (click)="onImport()"
     >
-      {{ importing() ? 'Importing…' : 'Import ' + validCount() + ' opportunities' }}
+      {{ importing() ? ('Importing…' | t) : ('Import {count} opportunities' | t: { count: validCount() }) }}
     </button>
   </div>
 }
 
 @if (step() === 'done') {
   <div class="empty-state">
-    <p>Imported {{ importedCount() }} opportunities.</p>
-    <a routerLink="/opportunities">View opportunities</a>
+    <p>{{ 'Imported {count} opportunities.' | t: { count: importedCount() } }}</p>
+    <a routerLink="/opportunities">{{ 'View opportunities' | t }}</a>
   </div>
 }

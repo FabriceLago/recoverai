@@ -1,56 +1,56 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="opp-form">
   <div class="grid">
     <div class="field">
-      <label for="title">Opportunity title</label>
+      <label for="title">{{ 'Opportunity title' | t }}</label>
       <input id="title" type="text" formControlName="title" />
     </div>
 
     <div class="field">
-      <label for="company_name">Company</label>
+      <label for="company_name">{{ 'Company' | t }}</label>
       <input id="company_name" type="text" formControlName="company_name" />
     </div>
 
     <div class="field">
-      <label for="contact_name">Contact name</label>
+      <label for="contact_name">{{ 'Contact name' | t }}</label>
       <input id="contact_name" type="text" formControlName="contact_name" />
     </div>
 
     <div class="field">
-      <label for="contact_email">Contact email</label>
+      <label for="contact_email">{{ 'Contact email' | t }}</label>
       <input id="contact_email" type="email" formControlName="contact_email" />
     </div>
 
     <div class="field">
-      <label for="value">Value</label>
+      <label for="value">{{ 'Value' | t }}</label>
       <input id="value" type="number" min="0" step="0.01" formControlName="value" />
     </div>
 
     <div class="field">
-      <label for="currency">Currency</label>
+      <label for="currency">{{ 'Currency' | t }}</label>
       <select id="currency" formControlName="currency">
-        <option value="EUR">EUR</option>
-        <option value="USD">USD</option>
-        <option value="GBP">GBP</option>
+        <option value="EUR">{{ 'EUR' | t }}</option>
+        <option value="USD">{{ 'USD' | t }}</option>
+        <option value="GBP">{{ 'GBP' | t }}</option>
       </select>
     </div>
 
     <div class="field">
-      <label for="status">Status</label>
+      <label for="status">{{ 'Status' | t }}</label>
       <select id="status" formControlName="status">
         @for (s of statuses; track s) {
-          <option [value]="s">{{ s }}</option>
+          <option [value]="s">{{ s | t }}</option>
         }
       </select>
     </div>
 
     <div class="field">
-      <label for="expected_close_date">Expected close date</label>
+      <label for="expected_close_date">{{ 'Expected close date' | t }}</label>
       <input id="expected_close_date" type="date" formControlName="expected_close_date" />
     </div>
   </div>
 
   <div class="field">
-    <label for="description">Description</label>
+    <label for="description">{{ 'Description' | t }}</label>
     <textarea id="description" rows="3" formControlName="description"></textarea>
   </div>
 
@@ -60,7 +60,7 @@
 
   <div class="actions">
     <button class="submit" type="submit" [disabled]="form.invalid || submitting()">
-      {{ submitting() ? 'Saving…' : submitLabel() }}
+      {{ submitting() ? ('Saving…' | t) : submitLabel() }}
     </button>
   </div>
 </form>

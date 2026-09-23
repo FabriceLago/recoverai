@@ -16,14 +16,17 @@ import type { OpportunityRiskScore } from './risk-score.model';
 import type { RecommendedAction } from '../actions/action.model';
 import type { GeneratedEmail } from './email-composer.model';
 import type { TimelineEntry } from './timeline.model';
+import { TranslatePipe, TranslateDbPipe } from '../core/i18n/translate.pipe';
+import { I18nService } from '../core/i18n/i18n.service';
 
 @Component({
   selector: 'app-opportunity-detail-page',
-  imports: [RouterLink, StatusBadge, RiskBadge, PriorityBadge, OpportunityForm],
+  imports: [RouterLink, StatusBadge, RiskBadge, PriorityBadge, OpportunityForm, TranslatePipe, TranslateDbPipe],
   templateUrl: './opportunity-detail-page.html',
   styleUrl: './opportunity-detail-page.scss',
 })
 export class OpportunityDetailPage {
+  private readonly i18n = inject(I18nService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly opportunities = inject(OpportunitiesService);
@@ -88,7 +91,7 @@ export class OpportunityDetailPage {
         this.loadDerived(opp);
       }
     } catch (err) {
-      this.error.set(err instanceof Error ? err.message : 'Failed to load opportunity.');
+      this.error.set(err instanceof Error ? err.message : this.i18n.t('Failed to load opportunity.'));
     } finally {
       this.loading.set(false);
     }
@@ -120,7 +123,7 @@ export class OpportunityDetailPage {
       this.editing.set(false);
       this.loadDerived(updated);
     } catch (err) {
-      this.error.set(err instanceof Error ? err.message : 'Failed to save changes.');
+      this.error.set(err instanceof Error ? err.message : this.i18n.t('Failed to save changes.'));
     } finally {
       this.saving.set(false);
     }
@@ -129,23 +132,23 @@ export class OpportunityDetailPage {
   async onDelete() {
     const opp = this.opportunity();
     if (!opp) return;
-    if (!confirm(`Delete "${opp.title}"? This cannot be undone.`)) return;
+    if (!confirm(this.i18n.t('Delete "{title}"? This cannot be undone.', { title: opp.title }))) return;
     try {
       await this.opportunities.remove(opp.id);
       this.router.navigateByUrl('/opportunities');
     } catch (err) {
-      this.error.set(err instanceof Error ? err.message : 'Failed to delete opportunity.');
+      this.error.set(err instanceof Error ? err.message : this.i18n.t('Failed to delete opportunity.'));
     }
   }
 
   async onMarkAsRecovered() {
     const opp = this.opportunity();
     if (!opp) return;
-    const input = prompt('Recovered amount:', opp.value.toString());
+    const input = prompt(this.i18n.t('Recovered amount:'), opp.value.toString());
     if (input === null) return;
     const amount = Number(input);
     if (!Number.isFinite(amount) || amount < 0) {
-      this.error.set('Enter a valid, non-negative amount.');
+      this.error.set(this.i18n.t('Enter a valid, non-negative amount.'));
       return;
     }
     this.recovering.set(true);
@@ -154,9 +157,9 @@ export class OpportunityDetailPage {
       const updated = await this.revenue.markAsRecovered(opp.id, amount);
       this.opportunity.set(updated);
       this.loadDerived(updated);
-      this.toast.show('Marked as recovered — revenue recorded.');
+      this.toast.show(this.i18n.t('Marked as recovered — revenue recorded.'));
     } catch (err) {
-      this.error.set(err instanceof Error ? err.message : 'Failed to mark as recovered.');
+      this.error.set(err instanceof Error ? err.message : this.i18n.t('Failed to mark as recovered.'));
     } finally {
       this.recovering.set(false);
     }
@@ -169,7 +172,7 @@ export class OpportunityDetailPage {
       await this.actions.complete(action.id);
       this.recommendedAction.set({ ...action, status: 'COMPLETED' });
     } catch (err) {
-      this.error.set(err instanceof Error ? err.message : 'Failed to complete action.');
+      this.error.set(err instanceof Error ? err.message : this.i18n.t('Failed to complete action.'));
     }
   }
 
@@ -180,7 +183,7 @@ export class OpportunityDetailPage {
       await this.actions.dismiss(action.id);
       this.recommendedAction.set({ ...action, status: 'DISMISSED' });
     } catch (err) {
-      this.error.set(err instanceof Error ? err.message : 'Failed to dismiss action.');
+      this.error.set(err instanceof Error ? err.message : this.i18n.t('Failed to dismiss action.'));
     }
   }
 
@@ -194,7 +197,7 @@ export class OpportunityDetailPage {
       const draft = await this.emailComposer.generate(opp, this.recommendedAction());
       this.emailDraft.set(draft);
     } catch (err) {
-      this.emailError.set(err instanceof Error ? err.message : 'Failed to generate email.');
+      this.emailError.set(err instanceof Error ? err.message : this.i18n.t('Failed to generate email.'));
     } finally {
       this.generatingEmail.set(false);
     }
@@ -221,7 +224,7 @@ export class OpportunityDetailPage {
     try {
       await this.emailComposer.simulateSend(opp, draft);
       this.emailSentAt.set(new Date().toISOString());
-      this.toast.show('Simulation: email recorded as sent.');
+      this.toast.show(this.i18n.t('Simulation: email recorded as sent.'));
       this.emailDraft.set(null);
       const refreshed = await this.opportunities.getById(opp.id);
       if (refreshed) {
@@ -229,19 +232,19 @@ export class OpportunityDetailPage {
         this.loadDerived(refreshed);
       }
     } catch (err) {
-      this.emailError.set(err instanceof Error ? err.message : 'Failed to send email.');
+      this.emailError.set(err instanceof Error ? err.message : this.i18n.t('Failed to send email.'));
     } finally {
       this.sendingEmail.set(false);
     }
   }
 
   formatCurrency(value: number, currency: string) {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(value);
+    return new Intl.NumberFormat(this.i18n.locale(), { style: 'currency', currency }).format(value);
   }
 
   formatDate(value: string | null) {
     if (!value) return '—';
-    return new Intl.DateTimeFormat('en-US', {
+    return new Intl.DateTimeFormat(this.i18n.locale(), {
       day: '2-digit',
       month: 'short',
       year: 'numeric',

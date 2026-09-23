@@ -1,18 +1,19 @@
 <div class="shell">
-  <a class="skip-link" href="#main">Skip to content</a>
-  <nav class="shell-nav" aria-label="Main">
-    <span class="brand">RecoverAI</span>
+  <a class="skip-link" href="#main">{{ 'Skip to content' | t }}</a>
+  <nav class="shell-nav" [attr.aria-label]="'Main' | t">
+    <span class="brand">{{ 'RecoverAI' | t }}</span>
     <div class="nav-links">
-      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-      <a routerLink="/opportunities" routerLinkActive="active">Opportunities</a>
-      <a routerLink="/actions" routerLinkActive="active">Actions</a>
-      <a routerLink="/import" routerLinkActive="active">Import</a>
-      <a routerLink="/settings" routerLinkActive="active">Settings</a>
+      <a routerLink="/dashboard" routerLinkActive="active">{{ 'Dashboard' | t }}</a>
+      <a routerLink="/opportunities" routerLinkActive="active">{{ 'Opportunities' | t }}</a>
+      <a routerLink="/actions" routerLinkActive="active">{{ 'Actions' | t }}</a>
+      <a routerLink="/import" routerLinkActive="active">{{ 'Import' | t }}</a>
+      <a routerLink="/settings" routerLinkActive="active">{{ 'Settings' | t }}</a>
     </div>
-    <button class="sign-out" type="button" (click)="signOut()">Sign out</button>
+    <app-language-switcher />
+    <button class="sign-out" type="button" (click)="signOut()">{{ 'Sign out' | t }}</button>
   </nav>
   @if (simulationActive()) {
-    <div class="simulation-banner">SIMULATION MODE — this data is generated, not real</div>
+    <div class="simulation-banner">{{ 'SIMULATION MODE — this data is generated, not real' | t }}</div>
   }
   <main class="shell-content" id="main">
     <router-outlet />
@@ -21,7 +22,7 @@
     @for (toast of toasts.toasts(); track toast.id) {
       <div class="toast" [class.toast-error]="toast.kind === 'error'" role="status">
         {{ toast.message }}
-        <button type="button" aria-label="Dismiss" (click)="toasts.dismiss(toast.id)">×</button>
+        <button type="button" [attr.aria-label]="'Dismiss' | t" (click)="toasts.dismiss(toast.id)">×</button>
       </div>
     }
   </div>

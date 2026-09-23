@@ -1,8 +1,8 @@
 <div class="page-header">
-  <h1>New opportunity</h1>
+  <h1>{{ 'New opportunity' | t }}</h1>
 </div>
 <app-opportunity-form
-  submitLabel="Create opportunity"
+  [submitLabel]="'Create opportunity' | t"
   [submitting]="submitting()"
   [error]="error()"
   (save)="onSave($event)"

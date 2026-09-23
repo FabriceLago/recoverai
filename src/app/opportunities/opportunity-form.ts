@@ -1,10 +1,11 @@
 import { Component, effect, inject, input, output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { OPPORTUNITY_STATUSES, type OpportunityFormValue } from './opportunity.model';
+import { TranslatePipe } from '../core/i18n/translate.pipe';
 
 @Component({
   selector: 'app-opportunity-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, TranslatePipe],
   templateUrl: './opportunity-form.html',
   styleUrl: './opportunity-form.scss',
 })
