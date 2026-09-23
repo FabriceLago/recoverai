@@ -1,10 +1,10 @@
 import { Component, computed, input } from '@angular/core';
 
 const RISK_COLORS: Record<string, string> = {
-  LOW: 'var(--success)',
-  MEDIUM: 'var(--warning)',
-  HIGH: 'var(--warning)',
-  CRITICAL: 'var(--danger)',
+  LOW: 'var(--risk-low)',
+  MEDIUM: 'var(--risk-medium)',
+  HIGH: 'var(--risk-high)',
+  CRITICAL: 'var(--risk-critical)',
 };
 
 @Component({
@@ -17,7 +17,8 @@ const RISK_COLORS: Record<string, string> = {
         padding: 3px 9px;
         border-radius: 999px;
         font-size: 12px;
-        font-weight: 700;
+        font-weight: 600;
+        font-family: var(--font-mono);
         color: var(--badge-color);
         background: color-mix(in srgb, var(--badge-color) 16%, transparent);
       }

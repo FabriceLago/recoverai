@@ -3,17 +3,23 @@
 }
 
 .shell-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   display: flex;
   align-items: center;
-  gap: 24px;
-  padding: 14px 24px;
+  gap: 28px;
+  padding: 12px 28px;
   border-bottom: 1px solid var(--border);
-  background: var(--surface);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  backdrop-filter: blur(10px);
 }
 
 .brand {
+  font-family: var(--font-display);
   font-weight: 700;
-  font-size: 15px;
+  font-size: 17px;
+  letter-spacing: -0.03em;
 }
 
 .nav-links {
@@ -29,8 +35,18 @@
   padding: 6px 0;
 }
 
+.nav-links a {
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.nav-links a:hover {
+  color: var(--text-primary);
+}
+
 .nav-links a.active {
   color: var(--text-primary);
+  border-bottom-color: var(--accent);
 }
 
 .sign-out {

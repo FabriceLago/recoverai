@@ -8,17 +8,51 @@
 }
 
 @if (loadingKpis()) {
+  <div class="kpi-skeleton hero-skeleton"></div>
   <div class="kpi-grid">
-    @for (i of [1, 2, 3, 4]; track i) {
+    @for (i of [1, 2, 3]; track i) {
       <div class="kpi-skeleton"></div>
     }
   </div>
 } @else if (kpis(); as k) {
+  <app-kpi-card
+    class="hero-kpi"
+    label="Revenue at Risk"
+    [value]="formatCurrency(k.revenue_at_risk)"
+    [emphasis]="true"
+  >
+    @if (spectrum().length > 0) {
+      <div
+        class="spectrum"
+        role="img"
+        [attr.aria-label]="'Open pipeline by risk level'"
+      >
+        @for (seg of spectrum(); track seg.level) {
+          @if (seg.share > 0) {
+            <span
+              class="seg"
+              [style.flex-grow]="seg.share"
+              [style.--seg-color]="'var(--risk-' + seg.level.toLowerCase() + ')'"
+            ></span>
+          }
+        }
+      </div>
+      <ul class="spectrum-legend">
+        @for (seg of spectrum(); track seg.level) {
+          <li>
+            <span class="dot" [style.--seg-color]="'var(--risk-' + seg.level.toLowerCase() + ')'"></span>
+            <span class="lvl">{{ seg.level }}</span>
+            <span class="num">{{ formatCurrency(seg.amount) }}</span>
+          </li>
+        }
+      </ul>
+    }
+  </app-kpi-card>
+
   <div class="kpi-grid">
-    <app-kpi-card label="Revenue Pipeline" [value]="formatCurrency(k.revenue_pipeline)" />
-    <app-kpi-card label="Revenue at Risk" [value]="formatCurrency(k.revenue_at_risk)" />
-    <app-kpi-card label="Actions Today" [value]="k.actions_today.toString()" />
-    <app-kpi-card label="Revenue Recovered" [value]="formatCurrency(k.revenue_recovered)" />
+    <app-kpi-card style="--kpi-delay: 60ms" label="Revenue Pipeline" [value]="formatCurrency(k.revenue_pipeline)" />
+    <app-kpi-card style="--kpi-delay: 120ms" label="Actions Today" [value]="k.actions_today.toString()" />
+    <app-kpi-card style="--kpi-delay: 180ms" label="Revenue Recovered" [value]="formatCurrency(k.revenue_recovered)" />
   </div>
 }
 
@@ -34,7 +68,7 @@
 } @else {
   <div class="attention-list">
     @for (opp of needsAttention(); track opp.id) {
-      <div class="attention-card">
+      <div class="attention-card" [style.--rail]="'var(--risk-' + opp.risk_level.toLowerCase() + ')'">
         <div class="attention-main">
           <div>
             <p class="company">{{ opp.company_name }}</p>
@@ -48,6 +82,7 @@
         @if (opp.risk_explanation.length > 0) {
           <p class="reason">{{ opp.risk_explanation.join(' · ') }}</p>
         }
+        <p class="silence num">{{ daysSince(opp.last_contact_at) }}</p>
         <a class="cta" [routerLink]="['/opportunities', opp.id]">
           @if (actionsById().get(opp.id); as action) {
             {{ action.title }} →
