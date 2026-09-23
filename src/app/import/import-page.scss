@@ -108,7 +108,7 @@
 .btn-primary {
   background: var(--accent);
   color: white;
-  border-color: var(--accent);
+  border-color: var(--accent-text);
 }
 
 .btn-primary:disabled {
@@ -125,7 +125,7 @@
 }
 
 .empty-state a {
-  color: var(--accent);
+  color: var(--accent-text);
   text-decoration: none;
 }
 

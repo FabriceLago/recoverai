@@ -19,6 +19,8 @@
     class="hero-kpi"
     [label]="'Revenue at Risk' | t"
     [value]="formatCurrency(k.revenue_at_risk)"
+    [amount]="k.revenue_at_risk"
+    currency="EUR"
     [emphasis]="true"
   >
     @if (spectrum().length > 0) {
@@ -27,11 +29,12 @@
         role="img"
         [attr.aria-label]="'Open pipeline by risk level'"
       >
-        @for (seg of spectrum(); track seg.level) {
+        @for (seg of spectrum(); track seg.level; let i = $index) {
           @if (seg.share > 0) {
             <span
               class="seg"
               [style.flex-grow]="seg.share"
+              [style.--i]="i"
               [style.--seg-color]="'var(--risk-' + seg.level.toLowerCase() + ')'"
             ></span>
           }
@@ -50,9 +53,9 @@
   </app-kpi-card>
 
   <div class="kpi-grid">
-    <app-kpi-card style="--kpi-delay: 60ms" [label]="'Revenue Pipeline' | t" [value]="formatCurrency(k.revenue_pipeline)" />
-    <app-kpi-card style="--kpi-delay: 120ms" [label]="'Actions Today' | t" [value]="k.actions_today.toString()" />
-    <app-kpi-card style="--kpi-delay: 180ms" [label]="'Revenue Recovered' | t" [value]="formatCurrency(k.revenue_recovered)" />
+    <app-kpi-card style="--kpi-delay: 60ms" [label]="'Revenue Pipeline' | t" [value]="formatCurrency(k.revenue_pipeline)" [amount]="k.revenue_pipeline" currency="EUR" />
+    <app-kpi-card style="--kpi-delay: 120ms" [label]="'Actions Today' | t" [value]="k.actions_today.toString()" [amount]="k.actions_today" />
+    <app-kpi-card style="--kpi-delay: 180ms" [label]="'Revenue Recovered' | t" [value]="formatCurrency(k.revenue_recovered)" [amount]="k.revenue_recovered" currency="EUR" />
   </div>
 }
 
@@ -67,8 +70,8 @@
   </div>
 } @else {
   <div class="attention-list">
-    @for (opp of needsAttention(); track opp.id) {
-      <div class="attention-card" [style.--rail]="'var(--risk-' + opp.risk_level.toLowerCase() + ')'">
+    @for (opp of needsAttention(); track opp.id; let i = $index) {
+      <div class="attention-card" [style.--i]="i" [style.--rail]="'var(--risk-' + opp.risk_level.toLowerCase() + ')'">
         <div class="attention-main">
           <div>
             <p class="company">{{ opp.company_name }}</p>

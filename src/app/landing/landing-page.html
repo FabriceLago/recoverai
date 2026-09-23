@@ -1,30 +1,72 @@
-<header class="lp-nav">
-  <span class="brand">{{ 'RecoverAI' | t }}</span>
-  <nav [attr.aria-label]="'Main' | t">
-    <app-language-switcher />
-    <a routerLink="/login">{{ 'Sign in' | t }}</a>
-    <a class="btn" routerLink="/signup">{{ 'Analyze my pipeline' | t }}</a>
-  </nav>
-</header>
+<div class="hero-wrap">
+  <header class="lp-nav">
+    <span class="brand">RECOVERAI</span>
+    <nav [attr.aria-label]="'Main' | t">
+      <div class="controls">
+        <app-language-switcher />
+        <a class="signin" routerLink="/login">{{ 'Sign in' | t }}</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>
+        {{ 'Stop losing revenue hiding in your' | t }}
+        <span class="hl">{{ 'pipeline.' | t }}</span>
+      </h1>
+      <p class="lead">
+        {{ 'RecoverAI detects the opportunities at risk, tells your team what to do next, and measures the revenue you recover.' | t }}
+      </p>
+      <ul class="checks">
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M8 12.5l2.7 2.7L16 9.5" /></svg>
+          <span><strong>{{ 'Explainable risk scores' | t }}</strong><small>{{ 'Every deal gets a score you can trace to its reasons.' | t }}</small></span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h13M13 7l5 5-5 5" /></svg>
+          <span><strong>{{ 'Know what to do next' | t }}</strong><small>{{ 'A next best action for every opportunity at risk.' | t }}</small></span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18l5-6 4 3 7-9" /></svg>
+          <span><strong>{{ 'Recovered revenue, measured' | t }}</strong><small>{{ 'Track what your follow-ups win back.' | t }}</small></span>
+        </li>
+      </ul>
+      <a class="btn large" routerLink="/signup">{{ 'Analyze my pipeline' | t }}</a>
+    </div>
+
+    <div class="hero-card" role="img" [attr.aria-label]="'Your revenue at a glance' | t">
+      <p class="card-title">{{ 'Your revenue at a glance' | t }}</p>
+      <div class="panel">
+        <p class="panel-label">{{ 'Revenue at Risk' | t }}</p>
+        <p class="panel-value" [appCountUp]="92100" currency="EUR"></p>
+        <div class="bar">
+          <span style="flex: 9.7; background: var(--risk-low)"></span>
+          <span style="flex: 14; background: var(--risk-medium)"></span>
+          <span style="flex: 56; background: var(--risk-high)"></span>
+          <span style="flex: 36.1; background: var(--risk-critical)"></span>
+        </div>
+        <ul class="rows">
+          <li><i style="background: var(--risk-critical)"></i>{{ 'CRITICAL' | t }}<b>€36,100</b></li>
+          <li><i style="background: var(--risk-high)"></i>{{ 'HIGH' | t }}<b>€56,000</b></li>
+          <li><i style="background: var(--risk-medium)"></i>{{ 'MEDIUM' | t }}<b>€14,000</b></li>
+          <li><i style="background: var(--risk-low)"></i>{{ 'LOW' | t }}<b>€9,700</b></li>
+        </ul>
+        <p class="sample">{{ 'Example data' | t }}</p>
+      </div>
+    </div>
+  </section>
+</div>
 
 <main>
-  <section class="hero">
-    <div class="hero-spectrum" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-    <h1>{{ 'Stop losing revenue hiding in your pipeline.' | t }}</h1>
-    <p>
-      {{ 'RecoverAI detects the opportunities at risk, tells your team what to do next, and measures the revenue you recover.' | t }}
-    </p>
-    <a class="btn large" routerLink="/signup">{{ 'Analyze my pipeline' | t }}</a>
-  </section>
-
-  <section class="section" aria-labelledby="problem">
+  <section appReveal class="section" aria-labelledby="problem">
     <h2 id="problem">{{ 'The problem' | t }}</h2>
     <p class="lead">
       {{ 'Deals rarely die loudly. They go quiet — one unanswered email at a time — and nobody notices until the quarter is over.' | t }}
     </p>
   </section>
 
-  <section class="section" aria-labelledby="how">
+  <section appReveal class="section" aria-labelledby="how">
     <h2 id="how">{{ 'How it works' | t }}</h2>
     <ol class="steps">
       <li><strong>{{ 'Score' | t }}</strong> {{ 'Every opportunity gets an explainable risk score.' | t }}</li>
@@ -33,29 +75,29 @@
     </ol>
   </section>
 
-  <section class="section" aria-labelledby="features">
+  <section appReveal class="section" aria-labelledby="features">
     <h2 id="features">{{ 'Built around one number' | t }}</h2>
     <div class="cards">
-      <div class="card"><h3>{{ 'Revenue Radar' | t }}</h3><p>{{ 'See pipeline, revenue at risk and today’s actions at a glance.' | t }}</p></div>
-      <div class="card"><h3>{{ 'Next Best Action' | t }}</h3><p>{{ 'Deterministic, explainable recommendations — no black box.' | t }}</p></div>
-      <div class="card"><h3>{{ 'Revenue Recovered' | t }}</h3><p>{{ 'The metric that proves the product pays for itself.' | t }}</p></div>
+      <div appReveal class="card"><h3>{{ 'Revenue Radar' | t }}</h3><p>{{ 'See pipeline, revenue at risk and today’s actions at a glance.' | t }}</p></div>
+      <div appReveal class="card"><h3>{{ 'Next Best Action' | t }}</h3><p>{{ 'Deterministic, explainable recommendations — no black box.' | t }}</p></div>
+      <div appReveal class="card"><h3>{{ 'Revenue Recovered' | t }}</h3><p>{{ 'The metric that proves the product pays for itself.' | t }}</p></div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="integrations">
+  <section appReveal class="section" aria-labelledby="integrations">
     <h2 id="integrations">{{ 'Integrations' | t }}</h2>
     <div class="cards">
-      <div class="card"><h3>{{ 'Gmail' | t }}</h3><p>{{ 'Connect your Google mailbox to detect opportunities automatically.' | t }}</p></div>
-      <div class="card"><h3>{{ 'Outlook' | t }}</h3><p>{{ 'Microsoft 365 support through Microsoft Graph.' | t }}</p></div>
-      <div class="card"><h3>{{ 'CSV & simulation' | t }}</h3><p>{{ 'Start today with a CSV import or the built-in demo data.' | t }}</p></div>
+      <div appReveal class="card"><h3>{{ 'Gmail' | t }}</h3><p>{{ 'Connect your Google mailbox to detect opportunities automatically.' | t }}</p></div>
+      <div appReveal class="card"><h3>{{ 'Outlook' | t }}</h3><p>{{ 'Microsoft 365 support through Microsoft Graph.' | t }}</p></div>
+      <div appReveal class="card"><h3>{{ 'CSV & simulation' | t }}</h3><p>{{ 'Start today with a CSV import or the built-in demo data.' | t }}</p></div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="pricing">
+  <section appReveal class="section" aria-labelledby="pricing">
     <h2 id="pricing">{{ 'Pricing' | t }}</h2>
     <div class="cards">
       @for (plan of plans; track plan.id) {
-        <div class="card">
+        <div appReveal class="card">
           <h3>{{ plan.name }}</h3>
           <p class="price">€{{ plan.priceEurMonthly }}<small>{{ '/month' | t }}</small></p>
         </div>
@@ -63,7 +105,7 @@
     </div>
   </section>
 
-  <section class="section" aria-labelledby="faq">
+  <section appReveal class="section" aria-labelledby="faq">
     <h2 id="faq">{{ 'FAQ' | t }}</h2>
     <details><summary>{{ 'Do I need to connect my inbox?' | t }}</summary><p>{{ 'No. Start with the built-in simulation or a CSV import; Gmail and Outlook are optional.' | t }}</p></details>
     <details><summary>{{ 'Is my data isolated from other companies?' | t }}</summary><p>{{ 'Yes. Every record belongs to one organization and is protected by database-level row security.' | t }}</p></details>

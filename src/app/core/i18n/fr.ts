@@ -242,6 +242,18 @@ export const FR: Record<string, string> = {
   'Failed to start checkout.': 'Impossible de lancer le paiement.',
 
   // Landing
+  // Landing hero
+  'Stop losing revenue hiding in your': 'Arrêtez de perdre du revenu caché dans votre',
+  'pipeline.': 'pipeline.',
+  'Explainable risk scores': 'Des scores de risque explicables',
+  'Every deal gets a score you can trace to its reasons.': 'Chaque affaire reçoit un score dont vous pouvez retracer les raisons.',
+  'Know what to do next': 'Sachez quoi faire ensuite',
+  'A next best action for every opportunity at risk.': 'Une prochaine meilleure action pour chaque opportunité à risque.',
+  'Recovered revenue, measured': 'Le revenu récupéré, mesuré',
+  'Track what your follow-ups win back.': 'Suivez ce que vos relances vous font regagner.',
+  'Your revenue at a glance': 'Votre revenu en un coup d’œil',
+  'Example data': 'Données d’exemple',
+
   'Analyze my pipeline': 'Analyser mon pipeline',
   'Stop losing revenue hiding in your pipeline.': 'Arrêtez de perdre du revenu caché dans votre pipeline.',
   'RecoverAI detects the opportunities at risk, tells your team what to do next, and measures the revenue you recover.': 'RecoverAI détecte les opportunités à risque, dit à votre équipe quoi faire ensuite et mesure le revenu que vous récupérez.',

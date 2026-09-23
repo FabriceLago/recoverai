@@ -97,7 +97,7 @@
 .cta {
   display: inline-block;
   margin-top: 12px;
-  color: var(--accent);
+  color: var(--accent-text);
   text-decoration: none;
   font-size: 13px;
   font-weight: 600;
@@ -112,7 +112,7 @@
 }
 
 .empty-state a {
-  color: var(--accent);
+  color: var(--accent-text);
   text-decoration: none;
 }
 
@@ -164,6 +164,9 @@
 }
 
 .seg {
+  transform-origin: left center;
+  animation: grow 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(250ms + var(--i, 0) * 110ms);
   flex-basis: 0;
   min-width: 6px;
   border-radius: 4px;
@@ -200,6 +203,9 @@
 }
 
 .attention-card {
+  animation: rise 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(300ms + var(--i, 0) * 80ms);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   position: relative;
   box-shadow: var(--shadow);
   overflow: hidden;
@@ -218,4 +224,22 @@
   color: var(--text-secondary);
   font-size: 12px;
   margin: 6px 0 0;
+}
+
+.attention-card:hover {
+  transform: translateY(-2px);
+}
+
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+    opacity: 0.4;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
 }

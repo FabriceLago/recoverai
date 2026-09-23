@@ -27,7 +27,7 @@
 }
 
 .choice:has(input:checked) {
-  border-color: var(--accent);
+  border-color: var(--accent-text);
 }
 
 .choice small {

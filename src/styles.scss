@@ -1,13 +1,16 @@
 :root {
-  /* Light (default): cool paper, ink text, one ultramarine accent */
-  --background: #f5f6f8;
+  /* Light: white paper, black ink, one mint accent (used as a fill, never as small text) */
+  --background: #ffffff;
   --surface: #ffffff;
-  --surface-elevated: #f0f2f6;
-  --border: #e3e6ec;
-  --text-primary: #0e1420;
-  --text-secondary: #5b6475;
-  --accent: #2340e8;
-  --accent-contrast: #ffffff;
+  --surface-elevated: #eef0f2;
+  --border: #dde1e5;
+  --text-primary: #0a0d0f;
+  --text-secondary: #535d65;
+  --accent: #23cf9d;
+  --accent-contrast: #000000;
+  --accent-text: #0b7a5a;
+  --ink: #000000;
+  --on-ink: #ffffff;
 
   /* Risk spectrum: the one place colour carries meaning */
   --risk-low: #12805c;
@@ -18,28 +21,28 @@
   --warning: var(--risk-medium);
   --danger: var(--risk-critical);
 
-  --shadow: 0 1px 2px rgba(14, 20, 32, 0.04), 0 4px 16px rgba(14, 20, 32, 0.04);
-  --radius: 12px;
-  --font-display: 'Bricolage Grotesque', 'Geist', system-ui, sans-serif;
+  --shadow: 0 1px 2px rgba(10, 13, 15, 0.04), 0 6px 20px rgba(10, 13, 15, 0.05);
+  --radius: 16px;
+  --radius-control: 10px;
+  --font-display: 'Outfit', 'Geist', system-ui, sans-serif;
   --font-sans: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, 'Cascadia Mono', monospace;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0b0f17;
-    --surface: #121826;
-    --surface-elevated: #1a2233;
-    --border: #263047;
-    --text-primary: #eef1f7;
-    --text-secondary: #98a2b8;
-    --accent: #7289ff;
-    --accent-contrast: #0b0f17;
+    --background: #000000;
+    --surface: #0e1113;
+    --surface-elevated: #23282c;
+    --border: #2c3339;
+    --text-primary: #ffffff;
+    --text-secondary: #98a3ad;
+    --accent-text: #23cf9d;
     --risk-low: #34c38f;
     --risk-medium: #e0a83a;
     --risk-high: #f27a4a;
     --risk-critical: #f0616a;
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   }
 }
 
@@ -66,7 +69,8 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  letter-spacing: -0.01em;
 }
 
 .num,
@@ -147,4 +151,36 @@ button,
 .submit:hover:not(:disabled),
 .btn:hover {
   filter: brightness(1.08);
+}
+
+/* Controls share one radius; primary fills are mint with black text */
+.btn-primary,
+.btn-secondary,
+.btn-danger,
+.submit,
+.btn {
+  border-radius: var(--radius-control) !important;
+}
+
+/* Motion: soft page transition and tactile buttons */
+.shell-content > :not(router-outlet) {
+  animation: page-in 0.3s ease-out both;
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.btn-primary:hover:not(:disabled),
+.submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled),
+.btn-secondary:active:not(:disabled),
+.submit:active:not(:disabled) {
+  transform: scale(0.98);
 }

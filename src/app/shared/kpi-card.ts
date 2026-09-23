@@ -1,11 +1,17 @@
 import { Component, input } from '@angular/core';
+import { CountUp } from './count-up.directive';
 
 @Component({
   selector: 'app-kpi-card',
+  imports: [CountUp],
   template: `
     <div class="kpi-card" [class.emphasis]="emphasis()">
       <span class="kpi-label">{{ label() }}</span>
-      <span class="kpi-value">{{ value() }}</span>
+      @if (amount() !== null) {
+        <span class="kpi-value" [appCountUp]="amount()!" [currency]="currency()"></span>
+      } @else {
+        <span class="kpi-value">{{ value() }}</span>
+      }
       <ng-content />
     </div>
   `,
@@ -13,7 +19,7 @@ import { Component, input } from '@angular/core';
     `
       :host {
         display: block;
-        animation: kpi-in 0.4s ease-out both;
+        animation: kpi-in 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
         animation-delay: var(--kpi-delay, 0ms);
       }
 
@@ -27,6 +33,11 @@ import { Component, input } from '@angular/core';
         flex-direction: column;
         gap: 10px;
         height: 100%;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .kpi-card:hover {
+        transform: translateY(-2px);
       }
 
       .kpi-label {
@@ -51,7 +62,7 @@ import { Component, input } from '@angular/core';
       @keyframes kpi-in {
         from {
           opacity: 0;
-          transform: translateY(6px);
+          transform: translateY(8px);
         }
       }
     `,
@@ -59,6 +70,8 @@ import { Component, input } from '@angular/core';
 })
 export class KpiCard {
   readonly label = input.required<string>();
-  readonly value = input.required<string>();
+  readonly value = input('');
+  readonly amount = input<number | null>(null);
+  readonly currency = input<string | null>(null);
   readonly emphasis = input(false);
 }
