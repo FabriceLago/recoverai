@@ -1,17 +1,24 @@
 import { Component, computed, input } from '@angular/core';
 import { TranslatePipe } from '../core/i18n/translate.pipe';
 
-const PRIORITY_COLORS: Record<string, string> = {
+const FILL: Record<string, string> = {
   LOW: 'var(--text-secondary)',
   MEDIUM: 'var(--accent)',
-  HIGH: 'var(--warning)',
-  URGENT: 'var(--danger)',
+  HIGH: 'var(--risk-high)',
+  URGENT: 'var(--risk-critical)',
+};
+
+const TEXT: Record<string, string> = {
+  LOW: 'var(--text-secondary)',
+  MEDIUM: 'var(--accent-text)',
+  HIGH: 'var(--risk-high-text)',
+  URGENT: 'var(--risk-critical-text)',
 };
 
 @Component({
   imports: [TranslatePipe],
   selector: 'app-priority-badge',
-  template: `<span class="badge" [style.--badge-color]="color()">{{ priority() | t }}</span>`,
+  template: `<span class="badge" [style.--badge-fill]="fill()" [style.--badge-text]="text()">{{ priority() | t }}</span>`,
   styles: [
     `
       .badge {
@@ -20,13 +27,14 @@ const PRIORITY_COLORS: Record<string, string> = {
         border-radius: 999px;
         font-size: 12px;
         font-weight: 600;
-        color: var(--badge-color);
-        background: color-mix(in srgb, var(--badge-color) 16%, transparent);
+        color: var(--badge-text);
+        background: color-mix(in srgb, var(--badge-fill) 16%, transparent);
       }
     `,
   ],
 })
 export class PriorityBadge {
   readonly priority = input.required<string>();
-  readonly color = computed(() => PRIORITY_COLORS[this.priority()] ?? 'var(--text-secondary)');
+  readonly fill = computed(() => FILL[this.priority()] ?? 'var(--text-secondary)');
+  readonly text = computed(() => TEXT[this.priority()] ?? 'var(--text-secondary)');
 }

@@ -5,7 +5,7 @@
     <p class="subtitle">{{ 'Start recovering revenue with RecoverAI.' | t }}</p>
 
     @if (errorMessage()) {
-      <div class="form-error">{{ errorMessage() }}</div>
+      <div class="form-error" role="alert">{{ errorMessage() }}</div>
     }
     @if (successMessage()) {
       <div class="form-success">{{ successMessage() }}</div>

@@ -91,6 +91,16 @@ export class OpportunitiesPage {
     this.load();
   }
 
+  ariaSort(field: keyof Opportunity): 'ascending' | 'descending' | 'none' {
+    if (this.sortField() !== field) return 'none';
+    return this.sortAscending() ? 'ascending' : 'descending';
+  }
+
+  sortMark(field: keyof Opportunity): string {
+    if (this.sortField() !== field) return '';
+    return this.sortAscending() ? ' ↑' : ' ↓';
+  }
+
   prevPage() {
     if (this.page() === 0) return;
     this.page.set(this.page() - 1);

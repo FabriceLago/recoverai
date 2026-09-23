@@ -17,6 +17,12 @@
   --risk-medium: #b7791f;
   --risk-high: #d9541e;
   --risk-critical: #c4262e;
+  /* Darker twins for TEXT (fills above pass 3:1 for graphics, text needs 4.5:1) */
+  --risk-low-text: #107151;
+  --risk-medium-text: #8b5c18;
+  --risk-high-text: #a94217;
+  --risk-critical-text: #b8242b;
+  --accent-text-soft: #0b7858;
   --success: var(--risk-low);
   --warning: var(--risk-medium);
   --danger: var(--risk-critical);
@@ -42,6 +48,10 @@
     --risk-medium: #e0a83a;
     --risk-high: #f27a4a;
     --risk-critical: #f0616a;
+    --risk-low-text: #34c38f;
+    --risk-medium-text: #e0a83a;
+    --risk-high-text: #f27a4a;
+    --risk-critical-text: #f0616a;
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   }
 }
@@ -183,4 +193,53 @@ button,
 .btn-secondary:active:not(:disabled),
 .submit:active:not(:disabled) {
   transform: scale(0.98);
+}
+
+/* UX rules: pointer cursor, 44px touch targets, 16px inputs (no iOS zoom), readable line length */
+button,
+summary,
+.row-link,
+[role='button'] {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+@media (pointer: coarse), (max-width: 720px) {
+  button,
+  .btn,
+  .btn-primary,
+  .btn-secondary,
+  .btn-danger,
+  .submit,
+  .sign-out,
+  .tab,
+  .nav-links a {
+    min-height: 44px;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+    min-height: 44px;
+  }
+
+  .nav-links {
+    gap: 8px !important;
+  }
+
+  .nav-links a {
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+.section > p,
+.hero .lead,
+.description,
+.lead {
+  max-width: 65ch;
 }

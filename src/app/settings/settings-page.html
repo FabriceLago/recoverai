@@ -9,7 +9,7 @@
   </p>
 
   @if (integrationMessage()) {
-    <div class="form-error">{{ integrationMessage() }}</div>
+    <div class="form-error" role="alert">{{ integrationMessage() }}</div>
   }
 
   <ul class="integration-list">
@@ -45,7 +45,7 @@
   </p>
 
   @if (error()) {
-    <div class="form-error">{{ error() }}</div>
+    <div class="form-error" role="alert">{{ error() }}</div>
   }
   @if (successMessage()) {
     <div class="form-success">{{ successMessage() }}</div>
@@ -63,7 +63,7 @@
   </p>
 
   @if (billingMessage()) {
-    <div class="form-error">{{ billingMessage() }}</div>
+    <div class="form-error" role="alert">{{ billingMessage() }}</div>
   }
 
   <ul class="integration-list">

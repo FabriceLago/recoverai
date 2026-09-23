@@ -5,7 +5,7 @@
     <p class="subtitle">{{ 'Welcome back to RecoverAI.' | t }}</p>
 
     @if (errorMessage()) {
-      <div class="form-error">{{ errorMessage() }}</div>
+      <div class="form-error" role="alert">{{ errorMessage() }}</div>
     }
 
     <form [formGroup]="form" (ngSubmit)="submit()">

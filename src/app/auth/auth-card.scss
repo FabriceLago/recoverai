@@ -55,7 +55,7 @@
 }
 
 .field-error {
-  color: var(--danger);
+  color: var(--risk-critical-text);
   font-size: 12px;
 }
 
@@ -79,7 +79,7 @@
 
 .form-error {
   background: rgba(239, 68, 68, 0.12);
-  color: var(--danger);
+  color: var(--risk-critical-text);
   border-radius: 8px;
   padding: 10px 12px;
   font-size: 13px;
@@ -88,7 +88,7 @@
 
 .form-success {
   background: rgba(34, 197, 94, 0.12);
-  color: var(--success);
+  color: var(--risk-low-text);
   border-radius: 8px;
   padding: 10px 12px;
   font-size: 13px;

@@ -36,7 +36,7 @@
   </div>
 
   @if (error()) {
-    <div class="form-error">{{ error() }}</div>
+    <div class="form-error" role="alert">{{ error() }}</div>
   }
 
   @if (editing()) {
@@ -121,7 +121,7 @@
     <h2 class="section-title">{{ 'Suggested email' | t }}</h2>
     <div class="overview-card">
       @if (emailError()) {
-        <div class="form-error">{{ emailError() }}</div>
+        <div class="form-error" role="alert">{{ emailError() }}</div>
       }
       @if (emailSentAt()) {
         <div class="form-success">{{ 'Simulation: email recorded as sent.' | t }}</div>

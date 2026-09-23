@@ -24,10 +24,10 @@
 </div>
 
 @if (error()) {
-  <div class="form-error">{{ error() }}</div>
+  <div class="form-error" role="alert">{{ error() }}</div>
 }
 
-@if (loading()) {
+@if (loading() && result().data.length === 0) {
   <div class="skeleton" aria-hidden="true">
     @for (i of [1, 2, 3, 4, 5]; track i) {
       <div class="skeleton-row"></div>
@@ -39,16 +39,16 @@
     <a routerLink="/opportunities/new">{{ 'Create your first opportunity' | t }}</a>
   </div>
 } @else {
-  <table class="opps-table">
+  <table class="opps-table" [class.busy]="loading()" [attr.aria-busy]="loading()">
     <thead>
       <tr>
-        <th (click)="sortBy('title')">{{ 'Opportunity' | t }}</th>
-        <th (click)="sortBy('company_name')">{{ 'Company' | t }}</th>
-        <th (click)="sortBy('value')">{{ 'Value' | t }}</th>
-        <th>{{ 'Status' | t }}</th>
-        <th>{{ 'Risk' | t }}</th>
-        <th (click)="sortBy('last_contact_at')">{{ 'Last Contact' | t }}</th>
-        <th (click)="sortBy('expected_close_date')">{{ 'Expected Close' | t }}</th>
+        <th scope="col" [attr.aria-sort]="ariaSort('title')"><button type="button" class="th-btn" (click)="sortBy('title')">{{ 'Opportunity' | t }}<span class="sort-mark" aria-hidden="true">{{ sortMark('title') }}</span></button></th>
+        <th scope="col" [attr.aria-sort]="ariaSort('company_name')"><button type="button" class="th-btn" (click)="sortBy('company_name')">{{ 'Company' | t }}<span class="sort-mark" aria-hidden="true">{{ sortMark('company_name') }}</span></button></th>
+        <th scope="col" [attr.aria-sort]="ariaSort('value')"><button type="button" class="th-btn" (click)="sortBy('value')">{{ 'Value' | t }}<span class="sort-mark" aria-hidden="true">{{ sortMark('value') }}</span></button></th>
+        <th scope="col">{{ 'Status' | t }}</th>
+        <th scope="col">{{ 'Risk' | t }}</th>
+        <th scope="col" [attr.aria-sort]="ariaSort('last_contact_at')"><button type="button" class="th-btn" (click)="sortBy('last_contact_at')">{{ 'Last Contact' | t }}<span class="sort-mark" aria-hidden="true">{{ sortMark('last_contact_at') }}</span></button></th>
+        <th scope="col" [attr.aria-sort]="ariaSort('expected_close_date')"><button type="button" class="th-btn" (click)="sortBy('expected_close_date')">{{ 'Expected Close' | t }}<span class="sort-mark" aria-hidden="true">{{ sortMark('expected_close_date') }}</span></button></th>
         <th></th>
       </tr>
     </thead>
