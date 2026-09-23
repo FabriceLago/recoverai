@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "dev": "ng serve",
+    "start:remote": "ng serve --configuration remote",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

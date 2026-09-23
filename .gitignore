@@ -49,3 +49,6 @@ Thumbs.db
 !.env.example
 supabase/.temp/
 supabase/.branches/
+
+# Hosted-project values (public, but kept out of the repo)
+src/environments/environment.remote.ts

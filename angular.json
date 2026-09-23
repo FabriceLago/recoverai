@@ -60,6 +60,17 @@
                   "with": "src/environments/environment.development.ts"
                 }
               ]
+            },
+            "remote": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.remote.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -72,6 +83,9 @@
             },
             "development": {
               "buildTarget": "recoverai:build:development"
+            },
+            "remote": {
+              "buildTarget": "recoverai:build:remote"
             }
           },
           "defaultConfiguration": "development"
