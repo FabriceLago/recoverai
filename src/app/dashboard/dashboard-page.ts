@@ -86,6 +86,10 @@ export class DashboardPage {
   // per-opportunity currency; formatted as EUR assuming a single-currency org
   // (set at onboarding). Add real multi-currency conversion if that changes.
   formatCurrency(value: number, currency = 'EUR') {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(value);
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency,
+      maximumFractionDigits: 0,
+    }).format(value);
   }
 }
